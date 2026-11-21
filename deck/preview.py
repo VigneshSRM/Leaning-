@@ -177,11 +177,15 @@ def _text(d, sh, x, y, w, h, s):
         lh = sz * ls * S / 72 * s
         # word-level wrap
         marL = 0
+        ind = 0
         try:
             if p._pPr is not None and p._pPr.get("marL"):
                 marL = int(p._pPr.get("marL")) / EMU * S * s
+            if p._pPr is not None and p._pPr.get("indent"):
+                ind = int(p._pPr.get("indent")) / EMU * S * s
         except Exception:
-            marL = 0
+            marL, ind = 0, 0
+        first_line = True
         words = []
         for txt, f in runs:
             name = f.name or ""
@@ -194,15 +198,17 @@ def _text(d, sh, x, y, w, h, s):
         align = p.alignment
         for wtxt, fnt, col, bd in words:
             wpx = measure(d, wtxt + " ", fnt)
-            if curw + wpx > tw - marL and cur:
-                lines.append((cur, lh, align))
+            lime = tw - marL - (ind if first_line else 0)
+            if curw + wpx > lime and cur:
+                lines.append((cur, lh, align, marL + (ind if first_line else 0)))
                 total_h += lh
+                first_line = False
                 cur, curw = [(wtxt, fnt, col, bd)], wpx
             else:
                 cur.append((wtxt, fnt, col, bd))
                 curw += wpx
         if cur:
-            lines.append((cur, lh, align))
+            lines.append((cur, lh, align, marL + (ind if first_line else 0)))
             total_h += lh
         total_h += (p.space_after.pt * S / 72 * s) if p.space_after is not None else 0
 
@@ -212,11 +218,11 @@ def _text(d, sh, x, y, w, h, s):
         cy = y + h - total_h - mt
     else:
         cy = y + mt
-    for cur, lh, align in lines:
+    for cur, lh, align, lmar in lines:
         lw = sum(measure(d, t + " ", fn) for t, fn, _, _ in cur)
-        cx = x + ml + marL
+        cx = x + ml + lmar
         if str(align) in ("CENTER (2)", "CENTER"):
-            cx = x + ml + max(0, (tw - lw) / 2)
+            cx = x + ml + lmar + max(0, (tw - lmar - lw) / 2)
         for wtxt, fnt, col, bd in cur:
             d.text((cx, cy), wtxt.replace("\n", " "), font=fnt, fill=col,
                    stroke_width=(1 if bd else 0), stroke_fill=col)

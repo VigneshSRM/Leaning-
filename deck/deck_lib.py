@@ -6,6 +6,9 @@ All text uses "Noto Sans Tamil" (Latin + Tamil coverage); code uses "Roboto Mono
 """
 from pptx import Presentation
 from pptx.util import Inches, Pt, Emu
+
+from . import i18n
+from .i18n import t
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR, MSO_AUTO_SIZE
 from pptx.enum.shapes import MSO_SHAPE, MSO_CONNECTOR
@@ -251,8 +254,14 @@ def fit_title(text, sizes=(30, 27, 24, 22, 20), width=None):
     tamil = any(ord(ch) > 0x0B00 for ch in text)
     safety = 1.14 if tamil else 1.06
     for sz in sizes:
-        if text_width_in(text, sz) * safety <= width:
-            return sz
+        if text_width_in(text, sz) * safety > width:
+            continue
+        # The conservative character-count model used by the overflow check must
+        # also agree the headline stays on one line (English titles are wider
+        # than the same text measured with the Tamil face).
+        if i18n.LANG == "en" and est_lines(text, width, sz, 0.55) > 1.0:
+            continue
+        return sz
     return sizes[-1]
 
 
@@ -290,7 +299,7 @@ def outcome_strip(slide, text, y=Y_OUT):
     hline(slide, M, y - 0.10, CW, RULE, 0.75)
     tb = textbox(slide, M, y, CW, 0.5)
     p = add_para(tb.text_frame, first=True, line=1.15)
-    write(p, [("இந்த Topic-க்குப் பிறகு:  ", dict(size=11, color=ACCENT, bold=True)),
+    write(p, [(t("இந்த Topic-க்குப் பிறகு:  ", "After this topic:  "), dict(size=11, color=ACCENT, bold=True)),
               (text, dict(size=11, color=INK))], 11)
 
 

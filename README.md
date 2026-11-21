@@ -1,11 +1,15 @@
-# Prompt Engineering — Beginner to Advanced (Tamil)
+# Prompt Engineering — Beginner to Advanced
 
-A 109-slide teaching deck in Tamil (English technical terms), built entirely from
-code so the layout stays consistent and re-buildable.
+A 109-slide teaching deck built entirely from code so the layout stays consistent
+and re-buildable. It ships in **two editions that share one layout**:
 
-- **Deliverable:** `output/Prompt-Engineering-Tamil-Beginner-to-Advanced.pptx`
-  (16:9, 13.333 × 7.5 in, 109 slides)
-- Google Slides copy: <https://docs.google.com/presentation/d/14NFWvTor9uNnV8F2QiFyMmDCkBrUwWkU4ak4f6c8x6I/edit>
+| Edition | PPTX | Google Slides |
+| --- | --- | --- |
+| Tamil (English technical terms) | `output/Prompt-Engineering-Tamil-Beginner-to-Advanced.pptx` | [open](https://docs.google.com/presentation/d/14NFWvTor9uNnV8F2QiFyMmDCkBrUwWkU4ak4f6c8x6I/edit) |
+| English | `output/Prompt-Engineering-Beginner-to-Advanced-English.pptx` | [open](https://docs.google.com/presentation/d/1sCM0YXgFhgPQMn3v_TMq6bsc5j4uXrLEWLFuskzFRVI/edit) |
+
+Both are 16:9 (13.333 × 7.5 in) with 109 slides; the Google-rendered PDF export of
+each is kept beside the PPTX (`…Tamil….pdf`, `…English.pdf`) as the render of record.
 
 ## Structure
 
@@ -35,9 +39,21 @@ with its timestamp.
 ## Build and check
 
 ```bash
+# Tamil edition
 python3 -m deck.build output/Prompt-Engineering-Tamil-Beginner-to-Advanced.pptx   # build + overflow report
 python3 -m deck.preview output/Prompt-Engineering-Tamil-Beginner-to-Advanced.pptx /tmp/prev 1,7,96
+
+# English edition (same specs, every string swapped through deck/en_map.json)
+python3 -m deck.deck_en output/Prompt-Engineering-Beginner-to-Advanced-English.pptx
 ```
+
+The English build is a translation layer, not a fork: `deck/deck_en.py` walks the
+same slide dicts from `deck.build.all_slides()`, replaces each Tamil string with its
+line from `deck/en_map.json` (1 226 entries), applies a handful of edition-specific
+`OVERRIDES` (cover subtitle, "keep technical terms in English" advice), asserts
+**0 residual Tamil code points** and then runs the normal build + overflow check.
+Labels that live inside the layout code (outcome-strip prefix, roadmap captions)
+switch through `deck/i18n.py`.
 
 Requirements: `python-pptx`, `Pillow`; Tamil preview needs `Noto Sans Tamil`
 (`/home/user/fonts/NotoSansTamil.ttf`) for `deck/preview.py`.

@@ -6,6 +6,8 @@ from pptx.enum.shapes import MSO_SHAPE, MSO_CONNECTOR
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from .deck_lib import (INK, BODY, MUTED, ACCENT, ACCENT_D, RULE, PANEL, WHITE, CODEBG,
                        FONT, MONO, rect, textbox, add_para, write, arrow, hline, shape_text)
+from .i18n import t as tr
+
 
 
 def _chip(sl, x, y, w, h, num, name, ts, strong=False):
@@ -23,22 +25,22 @@ def _chip(sl, x, y, w, h, num, name, ts, strong=False):
 def roadmap(sl, x, y, w, h):
     bands = [
         ("BEGINNER", "Modules 01–04", [
-            ("01", "Introduction", "AI, Prompt, அமைப்பு", "00:00"),
-            ("02", "Role", "நிபுணர் வேடம்", "03:40"),
-            ("03", "Persona", "பேசும் பாணி", "05:27"),
-            ("04", "XML", "tag கட்டமைப்பு", "07:59")]),
+            ("01", "Introduction", tr("AI, Prompt, அமைப்பு", "AI, Prompt, structure"), "00:00"),
+            ("02", "Role", tr("நிபுணர் வேடம்", "Expert role"), "03:40"),
+            ("03", "Persona", tr("பேசும் பாணி", "Speaking style"), "05:27"),
+            ("04", "XML", tr("tag கட்டமைப்பு", "tag structure"), "07:59")]),
         ("INTERMEDIATE", "Modules 05–10", [
             ("05", "JSON", "structured output", "10:29"),
-            ("06", "Few-Shot", "உதாரணங்கள்", "14:25"),
-            ("07", "ReAct", "சிந்தனை + tool", "16:23"),
-            ("08", "Tree of Thoughts", "பல வழிகள்", "19:39"),
-            ("09", "Skeleton of Thoughts", "outline + விரிவு", "22:12"),
-            ("10", "Prompt Chaining", "படிநிலை இணைப்பு", "24:55")]),
+            ("06", "Few-Shot", tr("உதாரணங்கள்", "Examples"), "14:25"),
+            ("07", "ReAct", tr("சிந்தனை + tool", "reasoning + tools"), "16:23"),
+            ("08", "Tree of Thoughts", tr("பல வழிகள்", "Several paths"), "19:39"),
+            ("09", "Skeleton of Thoughts", tr("outline + விரிவு", "outline + expansion"), "22:12"),
+            ("10", "Prompt Chaining", tr("படிநிலை இணைப்பு", "Staged chaining"), "24:55")]),
         ("ADVANCED", "Modules 11–14", [
-            ("11", "Dynamic Template", "மாறி (variables)", "27:38"),
-            ("12", "Concepts", "சிறந்த நடைமுறை", "28:50"),
-            ("13", "Combining", "கலந்த அணுகுமுறை", "31:39"),
-            ("14", "Auto Prompting", "AI எழுதும் prompt", "35:59")]),
+            ("11", "Dynamic Template", tr("மாறி (variables)", "Values as variables"), "27:38"),
+            ("12", "Concepts", tr("சிறந்த நடைமுறை", "Best practice"), "28:50"),
+            ("13", "Combining", tr("கலந்த அணுகுமுறை", "Mixed approach"), "31:39"),
+            ("14", "Auto Prompting", tr("AI எழுதும் prompt", "AI writes the prompt"), "35:59")]),
     ]
     label_w = 1.22
     band_h = (h - 0.26) / 3
@@ -105,20 +107,20 @@ def chain(sl, x, y, w, h):
             arrow(sl, bx + bw + 0.05, ay, bx + bw + gap - 0.05, ay, ACCENT, 1.2)
     tb = textbox(sl, x, y + h - cap_h + 0.06, w, cap_h)
     p = add_para(tb.text_frame, first=True)
-    write(p, "சிறிய chip = அந்த stage அடுத்த stage-க்கு ஒப்படைக்கும் output. இதுவே chaining.",
+    write(p, "The small chip is the output that stage hands to the next one. That is chaining.",
           8.8, MUTED, italic=True)
 
 
 def arch_assistant(sl, x, y, w, h):
     """Snake layout: 4 steps left-to-right, then wrap down to a second row."""
-    row1 = [("1", "User Request", "IT ticket / கேள்வி"),
+    row1 = [("1", "User Request", tr("IT ticket / கேள்வி", "IT ticket / question")),
             ("2", "Role + Persona", "XML blocks"),
             ("3", "Few-Shot", "3 labeled examples"),
             ("4", "JSON Output", "category, priority, draft")]
     row2 = [("5", "Validate", "schema check"),
             ("6", "Ticket System", "DB / ITSM log"),
             ("7", "Dynamic Template", "tone + variables"),
-            ("8", "Reply to User", "Tamil + English")]
+            ("8", "Reply to User", tr("Tamil + English", "English reply"))]
     gap = 0.24
     bh = 1.02
     bw = (w - gap * 3) / 4
@@ -161,10 +163,10 @@ def model_compare(sl, x, y, w, h):
     """Zero / one / few-shot comparison as three stacked output strips."""
     cols = ["Zero-Shot", "One-Shot", "Few-Shot"]
     rows = [
-        ("Prompt-ல் examples", "0", "1", "3–5"),
-        ("Output நம்பகத்தன்மை", "குறைவு", "நடுத்தரம்", "அதிகம்"),
-        ("Format பின்பற்றுதல்", "குறைவு", "நடுத்தரம்", "அதிகம்"),
-        ("Token செலவு", "குறைவு", "சிறிது", "அதிகம்"),
+        (tr("Prompt-ல் examples", "Examples in prompt"), "0", "1", "3–5"),
+        (tr("Output நம்பகத்தன்மை", "Output reliability"), tr("குறைவு", "Low"), tr("நடுத்தரம்", "Medium"), tr("அதிகம்", "High")),
+        (tr("Format பின்பற்றுதல்", "Format compliance"), tr("குறைவு", "Low"), tr("நடுத்தரம்", "Medium"), tr("அதிகம்", "High")),
+        (tr("Token செலவு", "Token cost"), tr("குறைவு", "Low"), tr("சிறிது", "Some"), tr("அதிகம்", "High")),
     ]
     from pptx.util import Emu
     tbl_shape = sl.shapes.add_table(len(rows) + 1, 4, Inches(x), Inches(y), Inches(w), Inches(h))
@@ -219,4 +221,5 @@ def pipeline(sl, x, y, w, h):
             arrow(sl, bx + bw + 0.03, ay, bx + bw + gap - 0.03, ay, MUTED, 1.0)
     tb = textbox(sl, x, y + h - 0.32, w, 0.32)
     p = add_para(tb.text_frame, first=True)
-    write(p, "JSON output இருந்தால் மட்டுமே application அதை நம்பகமாக பயன்படுத்த முடியும்.", 8.8, MUTED, italic=True)
+    write(p, tr("JSON output இருந்தால் மட்டுமே application அதை நம்பகமாக பயன்படுத்த முடியும்.",
+           "Only when the output is JSON can an application use it reliably."), 8.8, MUTED, italic=True)

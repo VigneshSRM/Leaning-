@@ -1,8 +1,15 @@
-# Infeara Agent Skills for Claude
+# Infeara Agent Skills for Claude & ChatGPT
 
-22 Claude Agent Skills (Agent Skills open standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
+22 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
 
-Each skill is a folder containing a `SKILL.md` with YAML frontmatter (`name` + `description`) and a focused playbook. Claude auto-discovers skills by matching the `description` against the user's request — no manual invocation needed, though you can also name a skill explicitly (e.g. *"Use the Infeara CFO skill to…"*).
+Each skill is a folder containing a `SKILL.md` with YAML frontmatter (`name` + `description`) and a focused playbook. Claude and ChatGPT auto-discover skills by matching the `description` against the user's request — no manual invocation needed, though you can also name a skill explicitly (e.g. *"Use the Infeara CFO skill to…"*).
+
+The same 22 skills ship in two packages:
+
+| Package | Location | Install |
+|---|---|---|
+| **Claude skills** | `skills/` (mirrored to `.claude/skills/`) | `./scripts/install-skills.sh`, or `/plugin install infeara --marketplace VigneshSRM/Leaning-` |
+| **ChatGPT/Codex plugin** | `plugins/infeara/` | `./scripts/build-plugin.sh` → upload `dist/infeara-plugin-1.0.0.zip` |
 
 ## Skill catalog
 
@@ -60,6 +67,15 @@ Skills are mirrored to `.claude/skills/` so Claude Code in this repo discovers t
 
 Upload a skill as a zip: zip one skill folder (it must contain `SKILL.md` at the root of the zip), then upload via Settings → Capabilities → Skills. Repeat per skill, or upload the whole `skills/` set one folder at a time.
 
+### ChatGPT / Codex (plugin)
+
+```bash
+./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-plugin-1.0.0.zip
+python3 scripts/validate-plugin.py   # 234 checks: manifest, limits, icons, skills
+```
+
+Upload the ZIP at [platform.openai.com/plugins](https://platform.openai.com/plugins) (verified developer identity required), resolve any automated findings, and submit. The package uses the Infeara mark as its icon and adds a `get-started` onboarding skill that routes requests to the right expert. See [`plugins/infeara/README.md`](plugins/infeara/README.md) for the local-marketplace testing flow and the pre-submission URL checklist.
+
 ### Other agents (Cursor, Codex, etc.)
 
 Copy any skill folder into your agent's skills directory — the `SKILL.md` format follows the open Agent Skills standard (`name` + `description` frontmatter).
@@ -72,14 +88,18 @@ skills/                      # Canonical skills (edit here)
   infeara-cfo/SKILL.md
   … (22 skills)
 .claude/skills/              # Mirror for Claude Code auto-discovery (do not edit separately)
-  infeara-ceo/SKILL.md
-  …
+plugins/infeara/             # ChatGPT/Codex plugin package, generated skills, icon assets
 scripts/install-skills.sh    # Installer for other projects / personal folder
+scripts/build-plugin.sh      # Sync skills → plugin + build dist zip
+scripts/validate-plugin.py   # Validate the plugin package
 CLAUDE.md                    # Routing guide for Claude in this repo
 ```
 
-> **Editing rule:** Edit files under `skills/` only, then re-mirror:
-> `cp -r skills/infeara-* .claude/skills/`
+> **Editing rule:** Edit files under `skills/` only, then re-sync:
+> ```bash
+> cp -r skills/infeara-* .claude/skills/
+> ./scripts/build-plugin.sh
+> ```
 
 ## Skill format
 

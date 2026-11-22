@@ -1,0 +1,12 @@
+{
+  "name": "infeara-local",
+  "plugins": [
+    {
+      "name": "infeara",
+      "source": { "source": "local", "path": "./plugins/infeara" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity",
+      "interface": { "displayName": "Infeara" }
+    }
+  ]
+}

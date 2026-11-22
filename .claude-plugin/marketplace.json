@@ -1,0 +1,28 @@
+{
+  "name": "infeara",
+  "owner": {
+    "name": "Infeara"
+  },
+  "metadata": {
+    "description": "Infeara expert skills for business, technology, security, audit, legal, and marketing work.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "infeara",
+      "source": "./plugins/infeara",
+      "description": "22 senior-expert skills: executive, finance, technology, operations, audit, security, legal, marketing, and content.",
+      "version": "1.0.0",
+      "category": "productivity",
+      "keywords": [
+        "business",
+        "strategy",
+        "finance",
+        "security",
+        "compliance",
+        "legal",
+        "marketing"
+      ]
+    }
+  ]
+}

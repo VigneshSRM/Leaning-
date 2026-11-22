@@ -1,0 +1,64 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "infeara",
+  "version": "1.0.0",
+  "description": "Twenty-two Infeara expert skills for business, technology, security, audit, legal, and marketing work — packaged as one ChatGPT and Codex plugin.",
+  "license": "MIT",
+  "author": {
+    "name": "Infeara"
+  },
+  "keywords": [
+    "business",
+    "strategy",
+    "management",
+    "finance",
+    "cfo",
+    "cto",
+    "coo",
+    "ceo",
+    "marketing",
+    "sales",
+    "google ads",
+    "meta ads",
+    "devops",
+    "cloud",
+    "cyber security",
+    "compliance",
+    "audit",
+    "legal",
+    "contracts",
+    "content"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Infeara",
+        "shortDescription": "22 expert business skills",
+        "longDescription": "Infeara packages 22 senior-expert skills into one plugin: chief executive, chief financial, chief technology and chief operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content creation; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance management; and cloud, DevOps, server, network and cyber security specialists. Each skill supplies the playbooks, templates, quality checklists and guardrails its persona uses, and hands work to the neighbouring skills that own adjacent decisions. The plugin runs entirely on packaged instructions: it makes no network calls, collects no user data, and stores nothing outside the conversation. It does not execute code, sign contracts, file anything with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
+        "developerName": "Infeara",
+        "category": "Productivity",
+        "capabilities": [
+          "Business strategy and executive decisions",
+          "Finance, operations and delivery planning",
+          "Marketing, sales and paid-media planning",
+          "Security, compliance and audit preparation",
+          "Technology architecture and operations"
+        ],
+        "defaultPrompt": [
+          "Use the Infeara CEO skill to shape our next quarter's strategy",
+          "Review this contract with the Infeara legal expert",
+          "Build a Google Ads and Meta Ads plan with the Infeara digital marketing expert"
+        ],
+        "brandColor": "#055998",
+        "brandColorDark": "#F16935",
+        "composerIcon": "./assets/composer-icon.png",
+        "logo": "./assets/logo.png",
+        "screenshots": []
+      },
+      "onboardingSkill": "./skills/get-started/SKILL.md",
+      "publication": {
+        "release_notes": "Initial release: 22 Infeara expert skills with an onboarding and routing skill."
+      }
+    }
+  }
+}

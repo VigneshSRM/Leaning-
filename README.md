@@ -9,13 +9,14 @@ actually writes on ruled sheets.
 
 | File | Look |
 | --- | --- |
-| `output/OOAD_Assignment_2_Vignesh_M_handwritten.pdf` | **Indie Flower**, ruled notebook paper |
-| `output/OOAD_Assignment_2_Vignesh_M_handwritten_plain.pdf` | Indie Flower, blank paper |
-| `output/OOAD_Assignment_2_Vignesh_M_handwritten_caveat.pdf` | Caveat, ruled paper |
-| `output/OOAD_Assignment_2_Vignesh_M_handwritten_kalam.pdf` | Kalam, ruled paper |
+| `output/OOAD_Assignment_2_Vignesh_M_handwritten.pdf` | **Indie Flower**, ruled notebook paper, phone-scanned |
+| `output/OOAD_Assignment_2_Vignesh_M_handwritten_plain.pdf` | Indie Flower, blank paper, phone-scanned |
 
 Type sizes are fixed as requested: **16 pt for headings, 14 pt for body text**,
 on a 22 pt rule. The cover page carries no border or ruling.
+
+Both are JPEG-per-page scans at 160 dpi, exactly like the output of a scanner
+app. `--no-scan` writes the clean vector master instead (selectable text, ~100 KB).
 
 ## What makes it read as handwriting
 
@@ -31,6 +32,10 @@ on a 22 pt rule. The cover page carries no border or ruling.
 * **Freehand diagram** — the deployment diagram is drawn as vector strokes with jittered
   edges, not ASCII art in a monospace font.
 * **Plain cover** — no border, no ruling, just centred writing.
+* **Phone-scan optics** (`scanify.py`) — the vector pages are rasterised and put
+  through the chain a phone camera imposes: warm paper, uneven lighting with a
+  directional falloff, lens vignette, paper mottling, sensor grain, warm cast and
+  a touch of optical softness. This is what sells it as a scan rather than a render.
 * **No system font is referenced** — the PDF embeds only the handwriting faces used.
   Verify with `pdffonts output/*.pdf`.
 
@@ -40,11 +45,14 @@ on a 22 pt rule. The cover page carries no border or ruling.
 python -m venv .venv
 .venv/bin/pip install -r requirements.txt
 
-.venv/bin/python make_handwritten.py                    # Indie Flower, ruled paper
-.venv/bin/python make_handwritten.py --font caveat    # Caveat
-.venv/bin/python make_handwritten.py --font kalam     # Kalam
-.venv/bin/python make_handwritten.py --plain          # blank paper
-.venv/bin/python make_handwritten.py --out foo.pdf    # custom path
+.venv/bin/python make_handwritten.py                        # Indie Flower, ruled, scanned
+.venv/bin/python make_handwritten.py --plain                # blank paper, scanned
+.venv/bin/python make_handwritten.py --font kalam           # Kalam hand
+.venv/bin/python make_handwritten.py --font caveat          # Caveat hand
+.venv/bin/python make_handwritten.py --no-scan              # clean vector output
+.venv/bin/python make_handwritten.py --scan-strength 1.4    # heavier shading
+.venv/bin/python make_handwritten.py --dpi 200 --quality 90 # sharper scan
+.venv/bin/python make_handwritten.py --out foo.pdf          # custom path
 ```
 
 `make_handwritten.py` holds the assignment text as a structured block list (questions,

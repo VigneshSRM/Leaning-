@@ -33,6 +33,8 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
+from scanify import scan_pdf
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 FONT_DIR = os.path.join(HERE, "assets", "fonts")
 
@@ -803,6 +805,12 @@ def main():
     ap.add_argument("--font", choices=["indie", "caveat", "kalam"], default="indie")
     ap.add_argument("--plain", action="store_true", help="no ruled paper")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--no-scan", action="store_true",
+                    help="keep the clean vector output instead of the phone-scan look")
+    ap.add_argument("--dpi", type=int, default=160, help="raster resolution of the scan")
+    ap.add_argument("--quality", type=int, default=82, help="JPEG quality of the scan")
+    ap.add_argument("--scan-strength", type=float, default=1.0,
+                    help="0 = clean, 1 = normal phone scan, >1 = heavier")
     args = ap.parse_args()
 
     out = args.out or os.path.join(
@@ -811,8 +819,19 @@ def main():
         % ("" if args.font == "indie" else "_" + args.font, "_plain" if args.plain else ""),
     )
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    pages = build(out, plain=args.plain, family=args.font)
-    print(f"wrote {out}  ({pages} pages)")
+
+    if args.no_scan:
+        pages = build(out, plain=args.plain, family=args.font)
+        print(f"wrote {out}  ({pages} pages, vector)")
+        return
+
+    # build the clean vector master, then photograph it
+    vector = out[:-4] + ".vector.pdf"
+    pages = build(vector, plain=args.plain, family=args.font)
+    scan_pdf(vector, out, dpi=args.dpi, quality=args.quality,
+             strength=args.scan_strength)
+    os.remove(vector)
+    print(f"wrote {out}  ({pages} pages, scanned at {args.dpi} dpi)")
 
 
 if __name__ == "__main__":

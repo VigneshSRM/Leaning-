@@ -3,3 +3,4 @@ fonttools>=4.40
 pypdf>=4.0
 pypdfium2>=4.0
 pillow>=10.0
+numpy>=1.26

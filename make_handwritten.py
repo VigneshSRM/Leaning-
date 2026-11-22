@@ -52,7 +52,7 @@ LEFT = 98.0
 RIGHT = 546.0
 TOP = 788.0
 BOTTOM = 60.0
-LEAD_BASE = 29.0
+LEAD_BASE = 22.0
 TEXT_W = RIGHT - LEFT
 
 # every typeface has a different x-height, so all sizes are expressed relative
@@ -78,6 +78,13 @@ def register_fonts(family: str) -> tuple[str, str, str]:
             "Hand-Regular": "Kalam-Regular.ttf",
             "Hand-SemiBold": "Kalam-Regular.ttf",
             "Hand-Bold": "Kalam-Bold.ttf",
+        }
+    elif family == "indie":
+        # Indie Flower is a single-weight face
+        spec = {
+            "Hand-Regular": "IndieFlower-Regular.ttf",
+            "Hand-SemiBold": "IndieFlower-Regular.ttf",
+            "Hand-Bold": "IndieFlower-Regular.ttf",
         }
     else:
         spec = {
@@ -280,7 +287,7 @@ class HandWriter:
         c = self.c
         c.saveState()
         c.setFillColor(GHOST)
-        c.setFont(self.body, S(13))
+        c.setFont(self.body, S(10))
         c.drawCentredString(W / 2.0, 30, str(self.page))
         c.restoreState()
 
@@ -366,7 +373,7 @@ class HandWriter:
             indent = left_indent + (first_indent if i == 0 else 0.0)
             if bullet and i == 0:
                 self.c.setFillColor(self.rng.choice(INKS))
-                sketch_dot(self.c, LEFT + left_indent - 13.0, y + 5.0, self.rng)
+                sketch_dot(self.c, LEFT + left_indent - S(13.0), y + S(5.0), self.rng, r=S(2.1))
                 indent = left_indent
             elif bullet:
                 indent = left_indent
@@ -377,30 +384,30 @@ class HandWriter:
 
     # -- semantic blocks --------------------------------------------------
     def question(self, text):
-        self.para([(text, self.bold, S(25))], first_indent=0, before=2,
+        self.para([(text, self.bold, S(16))], first_indent=0, before=2,
                   after_keep=6)
 
     def section(self, text):
-        self.para([(text, self.bold, S(21))], first_indent=0, before=1,
+        self.para([(text, self.bold, S(16))], first_indent=0, before=1,
                   after_keep=4)
 
     def sub(self, text):
-        self.para([(text, self.semi, S(20))], first_indent=0, before=1,
+        self.para([(text, self.semi, S(16))], first_indent=0, before=1,
                   after_keep=4)
 
     def body_para(self, text):
-        self.para([(text, self.body, S(19))], first_indent=22)
+        self.para([(text, self.body, S(14))], first_indent=S(22))
 
     def bullets(self, items):
         for lead, rest in items:
-            runs = [(lead, self.bold, S(19))]
+            runs = [(lead, self.bold, S(14))]
             if rest:
-                runs.append((rest, self.body, S(19)))
-            self.para(runs, left_indent=26, bullet=True)
+                runs.append((rest, self.body, S(14)))
+            self.para(runs, left_indent=S(26), bullet=True)
 
     # -- diagram ----------------------------------------------------------
     def diagram(self, nodes, links):
-        box_h, gap = 60.0, 44.0
+        box_h, gap = S(50.0), S(32.0)
         total = len(nodes) * box_h + (len(nodes) - 1) * gap
         rows = int(math.ceil((total + 8) / self.lead))
         self._need(rows)
@@ -418,24 +425,24 @@ class HandWriter:
 
         for idx, (title, inner) in enumerate(nodes):
             by = top - idx * (box_h + gap) - box_h
-            bx = cx - 112
-            bw = 224
+            bx = cx - S(106.0)
+            bw = S(212.0)
 
             # outer node
             sketch_poly(c, [(bx, by), (bx + bw, by), (bx + bw, by + box_h), (bx, by + box_h)],
                         rng, wob=1.0)
             c.setFillColor(INK)
-            c.setFont(self.bold, S(17))
-            c.drawCentredString(cx, by + box_h - 20, title)
+            c.setFont(self.bold, S(13))
+            c.drawCentredString(cx, by + box_h - S(17.0), title)
 
             # nested artifact box
-            iw, ih = 158.0, 26.0
-            ix, iy = cx - iw / 2.0, by + 6
+            iw, ih = S(150.0), S(19.0)
+            ix, iy = cx - iw / 2.0, by + S(5.0)
             sketch_poly(c, [(ix, iy), (ix + iw, iy), (ix + iw, iy + ih), (ix, iy + ih)],
                         rng, wob=0.8)
             c.setFillColor(INK_SOFT)
-            c.setFont(self.body, S(16))
-            c.drawCentredString(cx, iy + 7, inner)
+            c.setFont(self.body, S(12))
+            c.drawCentredString(cx, iy + S(6.0), inner)
 
             # connector to the next node
             if idx < len(links):
@@ -444,36 +451,23 @@ class HandWriter:
                 y_to = by - gap
                 sketch_arrow(c, cx, y_from, cx, y_to, rng)
                 c.setFillColor(INK_SOFT)
-                c.setFont(self.body, S(15))
-                c.drawString(cx + 11, y_from - gap / 2.0 - 5, label)
+                c.setFont(self.body, S(11))
+                c.drawString(cx + S(11.0), y_from - gap / 2.0 - S(5.0), label)
 
         c.restoreState()
         self._advance(rows)
 
     # -- cover ------------------------------------------------------------
     def cover(self, lines):
+        """Plain title page - no border, no ruling, just centred writing."""
         self.new_page(plain=True)
-        c = self.c
-        rng = random.Random(99)
-
-        # hand-drawn double frame
-        c.saveState()
-        c.setStrokeColor(HexColor("#B9C6DA"))
-        c.setLineWidth(1.1)
-        c.setLineJoin(1)
-        sketch_poly(c, [(30, 30), (W - 30, 30), (W - 30, H - 30), (30, H - 30)], rng, wob=1.4)
-        c.setLineWidth(0.7)
-        sketch_poly(c, [(38, 38), (W - 38, 38), (W - 38, H - 38), (38, H - 38)], rng, wob=1.1)
-        c.restoreState()
-
         limit = W - 2 * 72.0
-        for text, size, bold, row in lines:
+        for text, size, bold, y in lines:
             font = self.bold if bold else self.body
             size = S(size)
             while size > 9 and sw(text, font, size) > limit:
                 size -= 0.5
-            self.row = row
-            self._draw_line(tokenize([(text, font, size)]), LEFT, self._y(),
+            self._draw_line(tokenize([(text, font, size)]), LEFT, y,
                             align="center", cx=W / 2.0,
                             rng=random.Random(zlib.crc32(text.encode())))
 
@@ -493,22 +487,23 @@ Q4 = "4. Dynamic Architectural Modelling"
 Q5 = "5. Static Architectural Modelling"
 
 
-def build(path, plain=False, family="caveat"):
+def build(path, plain=False, family="indie"):
     global BODY, BOLD, SEMI, SCALE
-    SCALE = 0.78 if family == "kalam" else 1.0
+    # the requested 16 pt / 14 pt sizes are absolute, so every family uses them as-is
+    SCALE = 1.0
     BODY, SEMI, BOLD = register_fonts(family)
     w = HandWriter(path, BODY, BOLD, SEMI, ruled=not plain)
 
     w.cover([
-        ("ASSIGNMENT \u2013 2", 42, True, 3),
-        ("OBJECT ORIENTED ANALYSIS AND DESIGN (OOAD)", 26, True, 9),
-        ("Name: VIGNESH M", 23, False, 17),
-        ("Register Number: DC2431006010004", 23, False, 18),
-        ("Subject: OBJECT ORIENTED ANALYSIS AND DESIGN (OOAD)", 23, False, 19),
-        ("Assignment: 2", 23, False, 20),
-        ("Professor: Dr.A Shareen", 23, False, 21),
-        ("SRM INSTITUTE OF SCIENCE AND TECHNOLOGY", 25, True, 24),
-        ("Kattankulathur \u2013 603 203", 23, False, 25),
+        ("ASSIGNMENT \u2013 2", 24, True, 660),
+        ("OBJECT ORIENTED ANALYSIS AND DESIGN (OOAD)", 16, True, 596),
+        ("Name: VIGNESH M", 14, False, 430),
+        ("Register Number: DC2431006010004", 14, False, 396),
+        ("Subject: OBJECT ORIENTED ANALYSIS AND DESIGN (OOAD)", 14, False, 362),
+        ("Assignment: 2", 14, False, 328),
+        ("Professor: Dr.A Shareen", 14, False, 294),
+        ("SRM INSTITUTE OF SCIENCE AND TECHNOLOGY", 16, True, 150),
+        ("Kattankulathur \u2013 603 203", 14, False, 118),
     ])
 
     w.new_page()
@@ -805,7 +800,7 @@ def build(path, plain=False, family="caveat"):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--font", choices=["caveat", "kalam"], default="caveat")
+    ap.add_argument("--font", choices=["indie", "caveat", "kalam"], default="indie")
     ap.add_argument("--plain", action="store_true", help="no ruled paper")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
@@ -813,7 +808,7 @@ def main():
     out = args.out or os.path.join(
         HERE, "output",
         "OOAD_Assignment_2_Vignesh_M_handwritten%s%s.pdf"
-        % ("" if args.font == "caveat" else "_" + args.font, "_plain" if args.plain else ""),
+        % ("" if args.font == "indie" else "_" + args.font, "_plain" if args.plain else ""),
     )
     os.makedirs(os.path.dirname(out), exist_ok=True)
     pages = build(out, plain=args.plain, family=args.font)

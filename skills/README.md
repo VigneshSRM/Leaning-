@@ -1,10 +1,10 @@
 # Infeara Agent Skills for Claude & ChatGPT
 
-22 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
+23 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
 
 Each skill is a folder containing a `SKILL.md` with YAML frontmatter (`name` + `description`) and a focused playbook. Claude and ChatGPT auto-discover skills by matching the `description` against the user's request — no manual invocation needed, though you can also name a skill explicitly (e.g. *"Use the Infeara CFO skill to…"*).
 
-The same 22 skills ship in two packages:
+The same 23 skills ship in two packages:
 
 | Package | Location | Install |
 |---|---|---|
@@ -37,6 +37,7 @@ The same 22 skills ship in two packages:
 | 20 | `infeara-cofounder` | Co-founder | 45+ yrs | Co-founder roles, equity, partnerships, conflict |
 | 21 | `infeara-digital-marketing-expert` | Digital Marketing Expert | 49+ yrs | Google Ads & Meta Ads, PPC, ROAS, paid media |
 | 22 | `infeara-content-creator-expert` | Content Creator Expert | 38+ yrs | Blogs, social, video scripts, newsletters |
+| 23 | `infeara-document-writer` | Professional Document Writer | 25+ yrs | Cover pages, pagination, letterhead, typography, print PDF |
 
 ## How Claude uses these skills
 
@@ -71,7 +72,7 @@ Upload a skill as a zip: zip one skill folder (it must contain `SKILL.md` at the
 
 ```bash
 ./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-plugin-1.0.0.zip
-python3 scripts/validate-plugin.py   # 234 checks: manifest, limits, icons, skills
+python3 scripts/validate-plugin.py   # 243 checks: manifest, limits, icons, skills
 ```
 
 Upload the ZIP at [platform.openai.com/plugins](https://platform.openai.com/plugins) (verified developer identity required), resolve any automated findings, and submit. The package uses the Infeara mark as its icon and adds a `get-started` onboarding skill that routes requests to the right expert. See [`plugins/infeara/README.md`](plugins/infeara/README.md) for the local-marketplace testing flow and the pre-submission URL checklist.
@@ -86,7 +87,8 @@ Copy any skill folder into your agent's skills directory — the `SKILL.md` form
 skills/                      # Canonical skills (edit here)
   infeara-ceo/SKILL.md
   infeara-cfo/SKILL.md
-  … (22 skills)
+  … (23 skills)
+  infeara-document-writer/   # SKILL.md + references/ + assets/ (letterhead & report templates)
 .claude/skills/              # Mirror for Claude Code auto-discovery (do not edit separately)
 plugins/infeara/             # ChatGPT/Codex plugin package, generated skills, icon assets
 scripts/install-skills.sh    # Installer for other projects / personal folder

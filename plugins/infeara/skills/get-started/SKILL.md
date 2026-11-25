@@ -5,7 +5,7 @@ description: "Start here on first use of the Infeara plugin, or when the user as
 
 # Infeara — Getting Started
 
-Infeara bundles 22 expert skills. Each one carries its own playbooks, templates, quality checklist, and guardrails. This skill routes a request to the right expert and explains what the plugin can do.
+Infeara bundles 23 expert skills. Each one carries its own playbooks, templates, quality checklist, and guardrails. This skill routes a request to the right expert and explains what the plugin can do.
 
 ## How to use the plugin
 
@@ -42,11 +42,13 @@ If the user names an expert ("use the Infeara CFO skill"), load it directly. If 
 | Co-founder roles, equity, partnerships, conflict | `infeara-cofounder` |
 | Google Ads, Meta Ads, PPC, ROAS, paid media | `infeara-digital-marketing-expert` |
 | Blog, social post, video script, newsletter | `infeara-content-creator-expert` |
+| Formal document, report, policy, cover page, page numbers, letterhead, fonts | `infeara-document-writer` |
 
 ## Common multi-expert chains
 
 - **New offer** → Founder (is the bet worth it?) → CFO (does it pay?) → Marketing (how do we position it?) → Sales (can we sell it?) → Legal (what are we promising?).
 - **Enterprise client** → Sales (deal) → Legal (contract) → COO (delivery) → Client Success (retention) → CISO Auditor (security questionnaire).
+- **Client-facing report** → subject expert (audit/finance/security content) → Document Writer (cover, pagination, brand, PDF).
 - **Incident** → Cyber Security (contain) → DevOps (restore) → Compliance (notify) → Legal (exposure) → Client Success (communicate).
 - **Pricing change** → CFO (model) → Sales (pipeline impact) → Marketing (packaging) → Legal (terms).
 

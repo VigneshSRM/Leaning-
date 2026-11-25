@@ -1,6 +1,6 @@
 # Leaning- — Infeara Agent Skills for Claude & ChatGPT
 
-22 Infeara expert skills covering executive, go-to-market, finance, technology, operations, audit, security, legal, and content work — from CEO and Founder (38–45+ years) to Google Ads & Meta Ads (49+ years). Packaged three ways: Claude Code, Claude.ai, and a **ChatGPT/Codex plugin** with the Infeara logo as its icon.
+23 Infeara expert skills covering executive, go-to-market, finance, technology, operations, audit, security, legal, and content work — from CEO and Founder (38–45+ years) to Google Ads & Meta Ads (49+ years). Packaged three ways: Claude Code, Claude.ai, and a **ChatGPT/Codex plugin** with the Infeara logo as its icon.
 
 ## Quick start
 
@@ -22,7 +22,7 @@ See [`skills/README.md`](skills/README.md) for the full catalog of all 22 skills
 | Go-to-market | Marketing, Sales, Digital Marketing (Google/Meta Ads), Content Creator |
 | Technology | R&D, Cloud Associate, DevOps, Server Admin, Network Admin, Cyber Security |
 | Assurance | Lead Auditor, CISO Auditor, Compliance Manager, Legal |
-| Operations | Client Success Manager, Business & Management |
+| Operations | Client Success Manager, Business & Management, Professional Document Writer |
 
 ## Layout
 

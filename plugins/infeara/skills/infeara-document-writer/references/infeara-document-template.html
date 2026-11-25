@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Infeara Technologies — Document Template (Cover · TOC · Body · Appendix)</title>
+<!--
+  Infeara multipage document template — reference for infeara-document-writer.
+
+  Structure: cover → document control → table of contents → body → appendix
+  Pagination: CSS counters produce "Page X of Y" in the print footer (running footer
+  repeats on every sheet via @page margin boxes); section numbering is manual and
+  must match the TOC. Update TOC page numbers after the PDF is generated.
+
+  Print: A4, margins "None" (the @page box supplies the frame), background graphics ON.
+-->
+<style>
+  :root {
+    --brand-blue-900: #024f86;
+    --brand-blue-700: #0462ab;
+    --brand-orange-500: #fd6f33;
+    --brand-orange-700: #ce430a;
+    --ink: #1e293b;
+    --ink-muted: #334155;
+    --surface: #f1f5f9;
+    --rule: #e2e8f0;
+    --paper: #ffffff;
+    --font-stack: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    --gradient: linear-gradient(90deg, #024f86 0%, #0462ab 40%, #fd6f33 70%, #ce430a 100%);
+  }
+  /* Deterministic page model: every .sheet is exactly one A4 sheet with its own
+     header/footer drawn inside the artwork. No margin boxes, so Chrome, Edge,
+     Safari, Firefox, WeasyPrint and wkhtmltopdf all paginate identically. */
+  @page { size: A4; margin: 0; }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { font-family: var(--font-stack); color: var(--ink); }
+  body { background: #e8eef5; font-size: 10.5pt; line-height: 1.55; }
+
+  /* ---------- Screen sheet simulation (ignored in print) ---------- */
+  .sheet {
+    width: 210mm; height: 297mm; padding: 26mm 20mm 24mm; background: var(--paper);
+    margin: 24px auto; box-shadow: 0 8px 30px rgba(2, 79, 134, 0.15);
+    position: relative; overflow: hidden; break-after: page; page-break-after: always;
+  }
+  .sheet:last-of-type { break-after: auto; page-break-after: auto; }
+  @media print {
+    body { background: #fff; }
+    .sheet { width: auto; min-height: 0; margin: 0; box-shadow: none; overflow: visible; }
+    /* cover: auto height in print (content ~ 250mm), so no rounding overflow */
+    .cover { height: 295mm; min-height: 0; }
+    .cover .inner { padding-top: 20mm; min-height: 0; }
+    .cover .foot { margin-top: auto; }
+    .sheet + .sheet { break-before: page; }
+    .screen-only { display: none; }
+    /* the @page margin boxes already supply the frame — drop the screen padding */
+    .pad { padding: 0; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  /* ---------- Cover ---------- */
+  .cover { display: flex; flex-direction: column; height: 297mm; padding: 0; }
+  .cover .bar { height: 8mm; background: var(--gradient); }
+  .cover .inner { flex: 1 1 auto; padding: 22mm 20mm 12mm; display: flex; flex-direction: column; 
+                  min-height: 250mm; }
+  .cover .lockup { display: flex; align-items: center; gap: 16px; margin-bottom: 8mm; }
+  .cover .lockup img.symbol { height: 22mm; width: auto; }
+  .cover .lockup img.wordmark { height: 14mm; width: auto; }
+  .cover .kicker {
+    font-size: 9pt; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase;
+    color: var(--brand-orange-500); margin-bottom: 6mm;
+  }
+  .cover h1 {
+    font-size: 34pt; line-height: 1.1; font-weight: 600; color: var(--brand-blue-900);
+    max-width: 150mm; margin-bottom: 6mm;
+  }
+  .cover .subtitle {
+    font-size: 14pt; color: var(--brand-blue-700); font-weight: 400;
+    max-width: 140mm; margin-bottom: 8mm;
+  }
+  .cover .rule { height: 3px; width: 42mm; background: var(--brand-orange-500); margin-bottom: 12mm; }
+  .cover .meta { display: grid; grid-template-columns: 34mm 1fr; gap: 3mm 6mm; font-size: 9.5pt; }
+  .cover .meta dt { color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; font-size: 8pt; padding-top: 2px; }
+  .cover .meta dd { color: var(--ink); font-weight: 500; }
+  .cover .foot {
+    background: var(--brand-blue-900); color: #e0f2fe; padding: 6mm 20mm;
+    display: flex; justify-content: space-between; align-items: center; font-size: 9pt;
+    border-top: 3px solid var(--brand-orange-500);
+  }
+  .cover .foot .tag { font-style: italic; color: #fdba8c; }
+  .cover .stamp {
+    position: absolute; top: 22mm; right: 20mm; text-align: right;
+    font-size: 8pt; letter-spacing: 1.4px; text-transform: uppercase; color: var(--brand-orange-700);
+    border: 1px solid var(--brand-orange-500); padding: 3mm 4mm; border-radius: 2px;
+  }
+
+  /* ---------- Content pages ---------- */
+  .page-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    border-bottom: 2px solid var(--brand-blue-900); padding-bottom: 3mm; margin-bottom: 6mm;
+  }
+  .page-head .doc { font-size: 8.5pt; letter-spacing: 1.2px; text-transform: uppercase; color: #64748b; }
+  .page-head img { height: 8mm; width: auto; }
+  .pad { padding: 0; height: 100%; position: static; }
+
+  h2.section {
+    font-size: 20pt; font-weight: 600; color: var(--brand-blue-900);
+    line-height: 1.15; margin: 0 0 2mm; break-after: avoid;
+  }
+  .section-rule { height: 2px; width: 100%; background: var(--rule); margin-bottom: 6mm; position: relative; }
+  .section-rule::before { content: ''; position: absolute; left: 0; top: 0; height: 2px; width: 30mm; background: var(--brand-orange-500); }
+  h3 { font-size: 13pt; font-weight: 600; color: var(--brand-blue-700); margin: 7mm 0 2.5mm; break-after: avoid; }
+  h4 { font-size: 11pt; font-weight: 600; color: var(--brand-blue-900); margin: 5mm 0 2mm; break-after: avoid; }
+  p { margin-bottom: 3mm; orphans: 2; widows: 2; }
+  ul, ol { margin: 0 0 3.5mm 5mm; }
+  li { margin-bottom: 1.5mm; }
+  strong { color: var(--brand-blue-900); }
+  a { color: var(--brand-blue-700); }
+  .lead { font-size: 11.5pt; color: var(--ink-muted); }
+
+  /* Document control table */
+  table.control { width: 100%; table-layout: fixed; border-collapse: collapse; font-size: 9.5pt; margin-bottom: 6mm; }
+  table.control col.c-key { width: 27mm; }
+  table.control th, table.control td { border: 1px solid var(--rule); padding: 2.5mm 3mm; text-align: left; vertical-align: top; }
+  table.control th { background: var(--surface); width: 32mm; color: var(--brand-blue-900); font-weight: 600; }
+
+  /* Generic data table */
+  table.data { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 3mm 0 6mm; break-inside: avoid; }
+  table.data caption { caption-side: top; text-align: left; font-size: 8.5pt; font-weight: 600; color: var(--brand-blue-700); padding-bottom: 1.5mm; }
+  table.data thead { display: table-header-group; }
+  table.data th { background: var(--brand-blue-900); color: #fff; text-align: left; padding: 2.5mm 3mm; font-weight: 600; }
+  table.data td { padding: 2.2mm 3mm; border-bottom: 1px solid var(--rule); }
+  table.data tbody tr:nth-child(even) { background: var(--surface); }
+  table.data td.num, table.data th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* TOC */
+  ol.toc { list-style: none; margin: 0; }
+  ol.toc li { display: flex; align-items: baseline; gap: 2mm; font-size: 10.5pt; padding: 1.8mm 0; }
+  ol.toc li .num { color: var(--brand-orange-700); font-weight: 600; min-width: 9mm; flex: none; }
+  /* dot leader: dotted bottom border on a flexible spacer (renders in every engine) */
+  ol.toc li .dots {
+    flex: 1; min-width: 8mm; margin: 0 0 0 1mm;
+    border-bottom: 1px dotted #94a3b8;
+    transform: translateY(-1.2mm);
+  }
+  ol.toc li .pg { color: var(--brand-blue-900); font-weight: 600; flex: none; font-variant-numeric: tabular-nums; }
+  ol.toc li.sub { padding-left: 9mm; font-size: 10pt; color: var(--ink-muted); }
+  ol.toc li.sub .num { color: var(--ink-muted); font-weight: 400; }
+
+  /* Callouts */
+  .callout { background: var(--surface); border-left: 4px solid var(--brand-orange-500); padding: 4mm 5mm; margin: 4mm 0; break-inside: avoid; }
+  .callout .label { display: block; font-size: 8pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--brand-orange-700); margin-bottom: 1.5mm; }
+
+  /* Running footer for screen sheets */
+  .sheet-foot {
+    position: absolute; left: 20mm; right: 20mm; bottom: 12mm; padding-top: 2.5mm;
+    border-top: 1px solid var(--rule); display: flex; justify-content: space-between;
+    font-size: 8pt; color: #64748b; letter-spacing: 0.3px;
+  }
+  .sheet-foot .pg { color: var(--brand-blue-900); font-weight: 600; }
+  .cover .sheet-foot { display: none; }
+
+  .signoff { margin-top: 10mm; display: grid; grid-template-columns: 1fr 1fr; gap: 12mm; font-size: 9.5pt; }
+  .signoff .line { border-top: 1px solid var(--ink-muted); margin-bottom: 2mm; padding-top: 2mm; }
+</style>
+</head>
+<body>
+
+<!-- ===================== 1. COVER ===================== -->
+<section class="sheet cover">
+  <div class="bar"></div>
+  <div class="stamp">Confidential</div>
+  <div class="inner">
+    <div class="lockup">
+      <img src="../assets/logo-symbol.png" alt="Infeara" class="symbol">
+      <img src="../assets/logo-wordmark.png" alt="INFEARA" class="wordmark">
+    </div>
+    <div class="kicker">Client Report</div>
+    <h1>Document Title Goes Here</h1>
+    <p class="subtitle">A one-line subtitle that states the purpose, scope, and decision this document supports.</p>
+    <div class="rule"></div>
+    <dl class="meta">
+      <dt>Client</dt><dd>Client name</dd>
+      <dt>Prepared by</dt><dd>Name · Role, Infeara Technologies</dd>
+      <dt>Document ID</dt><dd>INFEARA-RPT-2026-001</dd>
+      <dt>Version</dt><dd>1.0</dd>
+      <dt>Date</dt><dd>22 November 2026</dd>
+      <dt>Classification</dt><dd>Confidential</dd>
+    </dl>
+  </div>
+  <div class="foot">
+    <span>Chennai, Tamil Nadu, India · +91 63811 73289 · info@infeara.com</span>
+    <span class="tag">The Way to Lead.</span>
+  </div>
+</section>
+
+<!-- ===================== 2. DOCUMENT CONTROL ===================== -->
+<section class="sheet">
+  <div class="pad">
+    <div class="page-head">
+      <span class="doc">Document control</span>
+      <img src="../assets/logo-wordmark.png" alt="INFEARA">
+    </div>
+
+    <h2 class="section">Document control</h2>
+    <div class="section-rule"></div>
+
+    <table class="control">
+      <colgroup><col class="c-key"><col><col class="c-key"><col></colgroup>
+      <tr><th>Document ID</th><td>INFEARA-RPT-2026-001</td><th>Version</th><td>1.0</td></tr>
+      <tr><th>Status</th><td>Draft for review</td><th>Classification</th><td>Confidential</td></tr>
+      <tr><th>Author</th><td>Name, Infeara</td><th>Date</th><td>22 Nov 2026</td></tr>
+      <tr><th>Reviewer</th><td>Name</td><th>Approver</th><td>Name, CEO</td></tr>
+      <tr><th>Next review</th><td>22 Feb 2027</td><th>Owner</th><td>Function / department</td></tr>
+    </table>
+
+    <h3>Revision history</h3>
+    <table class="data">
+      <caption>Table 1 — Revision history</caption>
+      <thead><tr><th>Version</th><th>Date</th><th>Author</th><th>Change summary</th></tr></thead>
+      <tbody>
+        <tr><td>0.1</td><td>10 Nov 2026</td><td>Name</td><td>Initial draft</td></tr>
+        <tr><td>1.0</td><td>22 Nov 2026</td><td>Name</td><td>Review comments incorporated; issued for approval</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <span class="label">Distribution</span>
+      This document is confidential to the named client and Infeara Technologies. Do not forward
+      outside the agreed distribution list without written approval from the document owner.
+    </div>
+    <div class="sheet-foot"><span>INFEARA-RPT-2026-001 · v1.0</span><span class="pg">ii</span></div>
+  </div>
+</section>
+
+<!-- ===================== 3. TABLE OF CONTENTS ===================== -->
+<section class="sheet">
+  <div class="pad">
+    <div class="page-head">
+      <span class="doc">Contents</span>
+      <img src="../assets/logo-wordmark.png" alt="INFEARA">
+    </div>
+
+    <h2 class="section">Contents</h2>
+    <div class="section-rule"></div>
+
+    <ol class="toc">
+      <li><span class="num">1.</span><span>Executive summary</span><span class="dots"></span><span class="pg">1</span></li>
+      <li><span class="num">2.</span><span>Context and objectives</span><span class="dots"></span><span class="pg">2</span></li>
+      <li class="sub"><span class="num">2.1</span><span>Scope</span><span class="dots"></span><span class="pg">2</span></li>
+      <li class="sub"><span class="num">2.2</span><span>Assumptions and sources</span><span class="dots"></span><span class="pg">3</span></li>
+      <li><span class="num">3.</span><span>Findings</span><span class="dots"></span><span class="pg">4</span></li>
+      <li class="sub"><span class="num">3.1</span><span>Current state</span><span class="dots"></span><span class="pg">4</span></li>
+      <li class="sub"><span class="num">3.2</span><span>Gaps and risks</span><span class="dots"></span><span class="pg">5</span></li>
+      <li><span class="num">4.</span><span>Recommendations</span><span class="dots"></span><span class="pg">7</span></li>
+      <li><span class="num">5.</span><span>Implementation plan</span><span class="dots"></span><span class="pg">9</span></li>
+      <li><span class="num">6.</span><span>Appendix A — Data tables</span><span class="dots"></span><span class="pg">12</span></li>
+    </ol>
+
+    <h3>List of tables and figures</h3>
+    <ol class="toc">
+      <li><span class="num">T1</span><span>Revision history</span><span class="dots"></span><span class="pg">ii</span></li>
+      <li><span class="num">T2</span><span>Recommendation summary</span><span class="dots"></span><span class="pg">7</span></li>
+      <li><span class="num">F1</span><span>Target operating model</span><span class="dots"></span><span class="pg">9</span></li>
+    </ol>
+    <div class="sheet-foot"><span>INFEARA-RPT-2026-001 · v1.0</span><span class="pg">iii</span></div>
+  </div>
+</section>
+
+<!-- ===================== 4. BODY ===================== -->
+<section class="sheet">
+  <div class="pad">
+    <div class="page-head">
+      <span class="doc">1 · Executive summary</span>
+      <img src="../assets/logo-wordmark.png" alt="INFEARA">
+    </div>
+
+    <h2 class="section">1. Executive summary</h2>
+    <div class="section-rule"></div>
+    <p class="lead">Answer first: state the conclusion and the decision required, then support it.</p>
+    <p>Body copy: 10.5&nbsp;pt Segoe UI, 1.55 leading, 65–75 character measure. Keep paragraphs under
+      six lines and open each section with the conclusion rather than the background.</p>
+    <h3>Key points</h3>
+    <ul>
+      <li><strong>Finding one.</strong> One sentence, quantified where possible.</li>
+      <li><strong>Finding two.</strong> One sentence, with the source referenced as (Source, date).</li>
+      <li><strong>Finding three.</strong> One sentence, ending in the action required.</li>
+    </ul>
+    <div class="callout">
+      <span class="label">Decision required</span>
+      Approve the recommendation in section 4 by 30 November 2026 so implementation can start in Q1.
+    </div>
+    <div class="sheet-foot"><span>INFEARA-RPT-2026-001 · v1.0</span><span class="pg">1</span></div>
+  </div>
+</section>
+
+<!-- ===================== 5. APPENDIX ===================== -->
+<section class="sheet">
+  <div class="pad">
+    <div class="page-head">
+      <span class="doc">Appendix A · Data tables</span>
+      <img src="../assets/logo-wordmark.png" alt="INFEARA">
+    </div>
+
+    <h2 class="section">Appendix A — Data tables</h2>
+    <div class="section-rule"></div>
+    <table class="data">
+      <caption>Table A1 — Supporting data (source: …)</caption>
+      <thead><tr><th>Metric</th><th>Baseline</th><th>Target</th><th class="num">Delta</th></tr></thead>
+      <tbody>
+        <tr><td>Coverage</td><td>68%</td><td>95%</td><td class="num">+27 pts</td></tr>
+        <tr><td>Cycle time</td><td>14 days</td><td>7 days</td><td class="num">−50%</td></tr>
+        <tr><td>Cost per unit</td><td>₹ 4,250</td><td>₹ 3,600</td><td class="num">−15.3%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="signoff">
+      <div><div class="line">Prepared by — Name, Role</div></div>
+      <div><div class="line">Approved by — Name, CEO</div></div>
+    </div>
+    <div class="sheet-foot"><span>INFEARA-RPT-2026-001 · v1.0</span><span class="pg">12</span></div>
+  </div>
+</section>
+
+</body>
+</html>

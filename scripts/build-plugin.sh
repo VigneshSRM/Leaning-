@@ -29,10 +29,12 @@ rm -rf "$PLUGIN/skills"/infeara-*
 for d in "$SRC"/infeara-*/; do
   name="$(basename "$d")"
   mkdir -p "$PLUGIN/skills/$name"
-  cp "$d/SKILL.md" "$PLUGIN/skills/$name/SKILL.md"
+  # copy SKILL.md plus any bundled references/, assets/, scripts/
+  cp -R "$d". "$PLUGIN/skills/$name/"
+  rm -rf "$PLUGIN/skills/$name/.DS_Store"
 done
 count=$(find "$PLUGIN/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-echo "    $count skill folders (22 experts + onboarding)"
+echo "    $count skill folders (23 experts + onboarding)"
 
 if [[ $ZIP -eq 1 ]]; then
   mkdir -p "$DIST"

@@ -19,7 +19,7 @@ ALLOWED_CATEGORIES = {
     "Education", "Finance", "Health", "Lifestyle", "News", "Travel",
     "Food", "Shopping", "Entertainment", "Other",
 }
-EXPECTED_SKILLS = 22
+EXPECTED_SKILLS = 23
 errors: list[str] = []
 warnings: list[str] = []
 checks = 0
@@ -194,6 +194,9 @@ def main() -> int:
             value = fm_desc.group(1).strip().strip('"')
             ok(len(value) >= 40, f"{d.name}: description is too short to trigger reliably")
             ok(len(value) <= 1024, f"{d.name}: description exceeds 1024 chars")
+        # supporting files referenced from the skill body must ship
+        for rel in sorted(set(re.findall(r"(?:assets|references)/[A-Za-z0-9._-]+", text))):
+            ok((d / rel).is_file(), f"{d.name}: referenced file missing: {rel}")
     if len(experts) != EXPECTED_SKILLS:
         warnings.append(f"{len(experts)} expert skills bundled; run ./scripts/build-plugin.sh to resync skills/")
 

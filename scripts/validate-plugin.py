@@ -83,7 +83,7 @@ def check_image(label: str, rel: str) -> None:
 
 
 def main() -> int:
-    manifest_path = PLUGIN / "plugin.json"
+    manifest_path = PLUGIN / "chatgpt-plugin.json"
     if not manifest_path.is_file():
         print(f"FAIL: missing {manifest_path}")
         return 1
@@ -199,6 +199,20 @@ def main() -> int:
             ok((d / rel).is_file(), f"{d.name}: referenced file missing: {rel}")
     if len(experts) != EXPECTED_SKILLS:
         warnings.append(f"{len(experts)} expert skills bundled; run ./scripts/build-plugin.sh to resync skills/")
+
+    # --- plugin.json uniqueness across the repo -------------------------------
+    # A Claude plugin ZIP must contain exactly one file named plugin.json.
+    # The repo root (.claude-plugin/plugin.json) is that file; everything else is renamed.
+    root = PLUGIN.parent.parent
+    stray = [
+        p for p in root.rglob("plugin.json")
+        if ".git" not in p.parts and "dist" not in p.parts
+        and p != root / ".claude-plugin" / "plugin.json"
+    ]
+    ok(not stray, "extra files named plugin.json (rename them): "
+       + ", ".join(str(s.relative_to(root)) for s in stray))
+    ok((root / ".claude-plugin" / "plugin.json").is_file(),
+       "repo root manifest missing: .claude-plugin/plugin.json")
 
     return report()
 

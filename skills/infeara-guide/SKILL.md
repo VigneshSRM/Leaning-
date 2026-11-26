@@ -61,7 +61,7 @@ Never edit `plugins/infeara/skills/` by hand — it is generated.
 
 ## Plugin rules
 
-1. `plugins/infeara/plugin.json` is the portable Agent Plugins manifest; OpenAI listing metadata lives under `extensions.com.openai`.
+1. `plugins/infeara/chatgpt-plugin.json` is the portable Agent Plugins manifest (renamed so the repo keeps exactly one `plugin.json`); OpenAI listing metadata lives under `extensions.com.openai`.
 2. Listing limits: `displayName` ≤ 30, `shortDescription` ≤ 30, `longDescription` ≤ 4000, `developerName` ≤ 80, ≤ 3 `defaultPrompt` entries of ≤ 128 chars, `category` from the directory list.
 3. Icons: square PNG/JPEG/WebP/SVG, ≥ 48 px (logo ≥ 512 px), ≤ 5 MiB, `./`-prefixed paths.
 4. Skills-only plugin: no `mcp.json`, no review test cases, no demo recording.

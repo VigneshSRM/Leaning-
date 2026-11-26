@@ -4,7 +4,9 @@ One plugin that packages all 22 Infeara expert skills, with the Infeara mark as 
 
 ```
 infeara/
-├── plugin.json                 # Agent Plugins manifest + OpenAI listing metadata
+├── chatgpt-plugin.json         # Agent Plugins manifest + OpenAI listing metadata
+│                               # (renamed: a Claude plugin ZIP must contain exactly
+│                               #  one plugin.json, which lives at the repo root)
 ├── assets/
 │   ├── logo.png                # 1024×1024 primary listing icon
 │   └── composer-icon.png       # 512×512 composer icon
@@ -20,7 +22,7 @@ Skills are copied from the repo's canonical `skills/` folder by `scripts/build-p
 
 ### ChatGPT / Codex (plugin directory)
 
-1. `./scripts/build-plugin.sh` → produces `dist/infeara-plugin-1.0.0.zip` with `plugin.json` at the archive root.
+1. `./scripts/build-plugin.sh` → produces `dist/infeara-chatgpt-1.0.0.zip` with `plugin.json` at the archive root.
 2. Go to [platform.openai.com/plugins](https://platform.openai.com/plugins) → **Upload new or existing plugin**.
 3. Choose your verified developer identity, upload the ZIP, resolve any automated findings, then submit for review.
 

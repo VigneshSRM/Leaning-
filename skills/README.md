@@ -9,7 +9,7 @@ The same 24 skills ship in two packages:
 | Package | Location | Install |
 |---|---|---|
 | **Claude skills** | `skills/` (mirrored to `.claude/skills/`) | `./scripts/install-skills.sh`, or `/plugin install infeara --marketplace VigneshSRM/Leaning-` |
-| **ChatGPT/Codex plugin** | `plugins/infeara/` | `./scripts/build-plugin.sh` → upload `dist/infeara-plugin-1.0.0.zip` |
+| **ChatGPT/Codex plugin** | `plugins/infeara/` | `./scripts/build-plugin.sh` → upload `dist/infeara-chatgpt-1.0.0.zip` |
 
 ## Skill catalog
 
@@ -72,7 +72,7 @@ Upload a skill as a zip: zip one skill folder (it must contain `SKILL.md` at the
 ### ChatGPT / Codex (plugin)
 
 ```bash
-./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-plugin-1.0.0.zip
+./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-chatgpt-1.0.0.zip
 python3 scripts/validate-plugin.py   # 251 checks: manifest, limits, icons, skills
 ```
 

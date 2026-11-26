@@ -6,7 +6,7 @@
 
 | I use… | Do this |
 |---|---|
-| **ChatGPT / Codex** | `./scripts/build-plugin.sh` → upload `dist/infeara-plugin-1.0.0.zip` at [platform.openai.com/plugins](https://platform.openai.com/plugins) |
+| **ChatGPT / Codex** | `./scripts/build-plugin.sh` → upload `dist/infeara-chatgpt-1.0.0.zip` at [platform.openai.com/plugins](https://platform.openai.com/plugins) |
 | **Claude Code (this repo)** | Already wired via `.claude/skills/` — just ask, e.g. *"Use the Infeara CFO skill to review this pricing model"* |
 | **Claude Code (as a plugin)** | `/plugin install infeara --marketplace VigneshSRM/Leaning-` |
 | **Claude plugin upload (repo ZIP)** | Manifest at `.claude-plugin/plugin.json` at the repo root — zip the repo, keeping that path at the archive root |
@@ -41,6 +41,20 @@ scripts/install-skills.sh     # Install the 22 skills into any Claude setup
 scripts/build-plugin.sh       # Sync skills → plugin folder, build dist zip
 scripts/validate-plugin.py    # Validate manifest, limits, icons, skills
 ```
+
+## Plugin manifest naming rule
+
+A Claude plugin ZIP must contain **exactly one** file named `plugin.json`. This repo is itself
+the plugin, so the only one is at the archive root:
+
+| File | Role | Named `plugin.json`? |
+|---|---|---|
+| `.claude-plugin/plugin.json` | The repo's Claude plugin manifest | ✅ yes — the only one |
+| `.claude-plugin/marketplace.json` | Marketplace listing | no |
+| `plugins/infeara/chatgpt-plugin.json` | ChatGPT/Codex manifest (renamed to `plugin.json` inside its own ZIP by the build script) | no |
+| `plugins/infeara/.claude-plugin/claude-plugin.json` | Claude view of the packaged plugin | no |
+
+`scripts/build-plugin.sh` fails the build if the count is not exactly 1.
 
 ## Editing rule
 

@@ -34,7 +34,7 @@ for d in "$SRC"/infeara-*/; do
   rm -rf "$PLUGIN/skills/$name/.DS_Store"
 done
 count=$(find "$PLUGIN/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-echo "    $count skill folders (23 experts + onboarding)"
+echo "    $count skill folders (24 experts + onboarding)"
 
 if [[ $ZIP -eq 1 ]]; then
   mkdir -p "$DIST"

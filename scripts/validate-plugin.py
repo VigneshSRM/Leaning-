@@ -19,7 +19,7 @@ ALLOWED_CATEGORIES = {
     "Education", "Finance", "Health", "Lifestyle", "News", "Travel",
     "Food", "Shopping", "Entertainment", "Other",
 }
-EXPECTED_SKILLS = 23
+EXPECTED_SKILLS = 24
 errors: list[str] = []
 warnings: list[str] = []
 checks = 0

@@ -1,6 +1,6 @@
 # Leaning- — Infeara Agent Skills for Claude & ChatGPT
 
-23 Infeara expert skills covering executive, go-to-market, finance, technology, operations, audit, security, legal, and content work — from CEO and Founder (38–45+ years) to Google Ads & Meta Ads (49+ years). Packaged three ways: Claude Code, Claude.ai, and a **ChatGPT/Codex plugin** with the Infeara logo as its icon.
+24 Infeara expert skills covering executive, go-to-market, finance, technology, operations, audit, security, legal, and content work — from CEO and Founder (38–45+ years) to Google Ads & Meta Ads (49+ years). Packaged three ways: Claude Code, Claude.ai, and a **ChatGPT/Codex plugin** with the Infeara logo as its icon.
 
 ## Quick start
 
@@ -9,6 +9,7 @@
 | **ChatGPT / Codex** | `./scripts/build-plugin.sh` → upload `dist/infeara-plugin-1.0.0.zip` at [platform.openai.com/plugins](https://platform.openai.com/plugins) |
 | **Claude Code (this repo)** | Already wired via `.claude/skills/` — just ask, e.g. *"Use the Infeara CFO skill to review this pricing model"* |
 | **Claude Code (as a plugin)** | `/plugin install infeara --marketplace VigneshSRM/Leaning-` |
+| **Claude plugin upload (repo ZIP)** | Manifest at `.claude-plugin/plugin.json` at the repo root — zip the repo, keeping that path at the archive root |
 | **Claude Code (anywhere)** | `./scripts/install-skills.sh` → installs all 22 skills to `~/.claude/skills/` |
 | **Claude.ai** | Upload any skill folder as a zip (must contain `SKILL.md`) via Settings → Capabilities → Skills |
 

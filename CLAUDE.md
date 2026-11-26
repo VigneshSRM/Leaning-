@@ -1,12 +1,14 @@
 # Infeara — Claude & ChatGPT Project Guide
 
-This repo contains 23 Infeara expert skills (see `skills/README.md` for the catalog), shipped as Claude skills and as a ChatGPT/Codex plugin.
+This repo contains 24 Infeara skills (see `skills/README.md` for the catalog), shipped as Claude skills and as a ChatGPT/Codex plugin.
 
 ## Where things live
 
 - Canonical skills: `skills/<skill-name>/SKILL.md`
 - Claude Code mirror (auto-discovered): `.claude/skills/<skill-name>/SKILL.md`
-- Claude Code plugin + marketplace: `plugins/infeara/`, `.claude-plugin/marketplace.json`
+- Claude plugin at the repo root: `.claude-plugin/plugin.json` + `icon.png` (this is what a repo ZIP upload reads)
+- Claude Code marketplace: `.claude-plugin/marketplace.json`
+- ChatGPT/Codex plugin: `plugins/infeara/`
 - ChatGPT/Codex plugin package: `plugins/infeara/` (`plugin.json`, `assets/`, `skills/`)
 - Plugin icons: `plugins/infeara/assets/logo.png` (1024²), `composer-icon.png` (512²)
 

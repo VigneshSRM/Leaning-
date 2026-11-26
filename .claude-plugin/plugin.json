@@ -1,0 +1,37 @@
+{
+  "name": "infeara",
+  "version": "1.0.0",
+  "description": "Twenty-three Infeara expert skills for business, technology, security, audit, legal, marketing, and professional document work.",
+  "author": {
+    "name": "Infeara"
+  },
+  "homepage": "https://github.com/VigneshSRM/Leaning-",
+  "repository": "https://github.com/VigneshSRM/Leaning-",
+  "license": "MIT",
+  "keywords": [
+    "business",
+    "strategy",
+    "management",
+    "finance",
+    "cfo",
+    "cto",
+    "coo",
+    "ceo",
+    "marketing",
+    "sales",
+    "google ads",
+    "meta ads",
+    "devops",
+    "cloud",
+    "cyber security",
+    "compliance",
+    "audit",
+    "legal",
+    "contracts",
+    "document",
+    "report",
+    "typography",
+    "content"
+  ],
+  "skills": "./skills/"
+}

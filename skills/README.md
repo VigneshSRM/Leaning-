@@ -1,10 +1,10 @@
 # Infeara Agent Skills for Claude & ChatGPT
 
-23 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
+24 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
 
 Each skill is a folder containing a `SKILL.md` with YAML frontmatter (`name` + `description`) and a focused playbook. Claude and ChatGPT auto-discover skills by matching the `description` against the user's request — no manual invocation needed, though you can also name a skill explicitly (e.g. *"Use the Infeara CFO skill to…"*).
 
-The same 23 skills ship in two packages:
+The same 24 skills ship in two packages:
 
 | Package | Location | Install |
 |---|---|---|
@@ -38,6 +38,7 @@ The same 23 skills ship in two packages:
 | 21 | `infeara-digital-marketing-expert` | Digital Marketing Expert | 49+ yrs | Google Ads & Meta Ads, PPC, ROAS, paid media |
 | 22 | `infeara-content-creator-expert` | Content Creator Expert | 38+ yrs | Blogs, social, video scripts, newsletters |
 | 23 | `infeara-document-writer` | Professional Document Writer | 25+ yrs | Cover pages, pagination, letterhead, typography, print PDF |
+| 24 | `infeara-guide` | Library Guide | — | Routes requests, documents repo layout and build steps |
 
 ## How Claude uses these skills
 
@@ -72,7 +73,7 @@ Upload a skill as a zip: zip one skill folder (it must contain `SKILL.md` at the
 
 ```bash
 ./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-plugin-1.0.0.zip
-python3 scripts/validate-plugin.py   # 243 checks: manifest, limits, icons, skills
+python3 scripts/validate-plugin.py   # 251 checks: manifest, limits, icons, skills
 ```
 
 Upload the ZIP at [platform.openai.com/plugins](https://platform.openai.com/plugins) (verified developer identity required), resolve any automated findings, and submit. The package uses the Infeara mark as its icon and adds a `get-started` onboarding skill that routes requests to the right expert. See [`plugins/infeara/README.md`](plugins/infeara/README.md) for the local-marketplace testing flow and the pre-submission URL checklist.

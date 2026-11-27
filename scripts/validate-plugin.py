@@ -19,7 +19,7 @@ ALLOWED_CATEGORIES = {
     "Education", "Finance", "Health", "Lifestyle", "News", "Travel",
     "Food", "Shopping", "Entertainment", "Other",
 }
-EXPECTED_SKILLS = 24
+EXPECTED_SKILLS = 36
 errors: list[str] = []
 warnings: list[str] = []
 checks = 0
@@ -170,6 +170,8 @@ def main() -> int:
     skills_dir = PLUGIN / "skills"
     skill_dirs = sorted(p for p in skills_dir.iterdir() if p.is_dir()) if skills_dir.is_dir() else []
     experts = [p for p in skill_dirs if p.name.startswith("infeara-")]
+    team = [p for p in skill_dirs if p.name.startswith("infeara-team-")]
+    ok(len(team) == 11, f"expected 11 team role skills (10 roles + lead), found {len(team)}")
     ok(len(experts) == EXPECTED_SKILLS, f"expected {EXPECTED_SKILLS} expert skills, found {len(experts)}")
     ok(any(p.name == "get-started" for p in skill_dirs), "skills/get-started (onboarding) is missing")
     print(f"\nSkills: {len(skill_dirs)} folders")

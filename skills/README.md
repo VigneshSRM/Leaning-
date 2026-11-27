@@ -1,10 +1,10 @@
 # Infeara Agent Skills for Claude & ChatGPT
 
-24 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
+36 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
 
 Each skill is a folder containing a `SKILL.md` with YAML frontmatter (`name` + `description`) and a focused playbook. Claude and ChatGPT auto-discover skills by matching the `description` against the user's request — no manual invocation needed, though you can also name a skill explicitly (e.g. *"Use the Infeara CFO skill to…"*).
 
-The same 24 skills ship in two packages:
+The same 36 skills ship in two packages:
 
 | Package | Location | Install |
 |---|---|---|
@@ -40,6 +40,25 @@ The same 24 skills ship in two packages:
 | 23 | `infeara-document-writer` | Professional Document Writer | 25+ yrs | Cover pages, pagination, letterhead, typography, print PDF |
 | 24 | `infeara-guide` | Library Guide | — | Routes requests, documents repo layout and build steps |
 
+### Delivery team — 10 roles that work together
+
+| # | Skill | Team role | Owns |
+|---|---|---|---|
+| 25 | `infeara-team-lead` | Team Lead | Assigns roles, owns gates and the engagement outcome |
+| 26 | `infeara-sprint-orchestrator` | Orchestrator | Sprint rhythm, backlog, ceremonies, flow |
+| 27 | `infeara-team-engagement-manager` | Engagement Manager | Discovery, scope, commitments, sign-off |
+| 28 | `infeara-team-solution-architect` | Solution Architect | Solution design, NFRs, ADRs |
+| 29 | `infeara-team-tech-lead` | Technical Lead | Standards, task breakdown, code review |
+| 30 | `infeara-team-implementation-engineer` | Implementation Engineer | Building, unit tests, pull requests |
+| 31 | `infeara-team-qa-engineer` | QA Engineer | Test strategy, acceptance, defect triage |
+| 32 | `infeara-team-deployment-engineer` | Deployment Engineer | Environments, releases, rollback, monitoring |
+| 33 | `infeara-team-documentation-analyst` | Documentation Analyst | Runbooks, handover, user guides |
+| 34 | `infeara-team-security-analyst` | Security Analyst | Threat models, hardening, security sign-off |
+| 35 | `infeara-team-project-manager` | Project Manager | Plan, schedule, dependencies, risks, status |
+| 36 | `infeara-team-account-manager` | Account Manager | Relationship, health, renewal, expansion |
+
+**How the team works:** `infeara-team-lead` assigns work along the engagement lifecycle (qualify → discover → design → plan → build → verify → release → document → handover → close). Each role hands off a named artefact with acceptance criteria; `infeara-sprint-orchestrator` runs the weekly rhythm. Ask for the team with: *"Assemble the Infeara team for this client"* or *"Who owns this?"*.
+
 ## How Claude uses these skills
 
 1. **Automatic:** Claude reads each skill's `description` and loads the matching skill when your request fits. Example: *"Build a Google Ads plan for our cloud services"* → loads `infeara-digital-marketing-expert`.
@@ -73,7 +92,7 @@ Upload a skill as a zip: zip one skill folder (it must contain `SKILL.md` at the
 
 ```bash
 ./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-chatgpt-1.0.0.zip
-python3 scripts/validate-plugin.py   # 251 checks: manifest, limits, icons, skills
+python3 scripts/validate-plugin.py   # 350 checks: manifest, limits, icons, skills
 ```
 
 Upload the ZIP at [platform.openai.com/plugins](https://platform.openai.com/plugins) (verified developer identity required), resolve any automated findings, and submit. The package uses the Infeara mark as its icon and adds a `get-started` onboarding skill that routes requests to the right expert. See [`plugins/infeara/README.md`](plugins/infeara/README.md) for the local-marketplace testing flow and the pre-submission URL checklist.

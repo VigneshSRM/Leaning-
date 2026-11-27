@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "infeara",
   "version": "1.0.0",
-  "description": "Twenty-three Infeara expert skills for business, technology, security, audit, legal, marketing, and professional document work — packaged as one ChatGPT and Codex plugin.",
+  "description": "Thirty-six Infeara skills — 23 expert personas plus a 10-role delivery team and orchestrator — for business, technology, security, audit, legal, marketing, and document work.",
   "license": "MIT",
   "author": {
     "name": "Infeara"
@@ -33,22 +33,22 @@
     "com.openai": {
       "interface": {
         "displayName": "Infeara",
-        "shortDescription": "23 expert business skills",
-        "longDescription": "Infeara packages 23 senior-expert skills into one plugin: chief executive, chief financial, chief technology and chief operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content creation; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance management; and cloud, DevOps, server, network and cyber security specialists. Each skill supplies the playbooks, templates, quality checklists and guardrails its persona uses, and hands work to the neighbouring skills that own adjacent decisions. The plugin runs entirely on packaged instructions: it makes no network calls, collects no user data, and stores nothing outside the conversation. It does not execute code, sign contracts, file anything with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
+        "shortDescription": "36 skills + 10-role team",
+        "longDescription": "Infeara packages 36 skills into one plugin. The expert library covers chief executive, financial, technology and operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance; and cloud, DevOps, server, network and cyber security specialists. On top of that sits a delivery team of ten collaborating roles — engagement manager, solution architect, technical lead, implementation engineer, QA engineer, deployment engineer, documentation analyst, security analyst, project manager and account manager — coordinated by a team lead and a sprint orchestrator across discovery, design, build, verify, release, document and handover. Each skill supplies playbooks, templates, quality checklists and guardrails, and hands work to the roles that own adjacent decisions. The plugin runs entirely on packaged instructions: no network calls, no data collection, nothing stored outside the conversation. It does not execute code, sign contracts, file with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
         "developerName": "Infeara",
         "category": "Productivity",
         "capabilities": [
-          "Business strategy and executive decisions",
-          "Finance, operations and delivery planning",
-          "Marketing, sales and paid-media planning",
-          "Security, compliance and audit preparation",
-          "Technology architecture and operations",
+          "Expert guidance across 23 business and technology domains",
+          "Ten-role delivery team with defined handoffs and gates",
+          "Sprint planning, ceremonies and cross-role coordination",
+          "Test strategy, release and rollback planning",
+          "Security review and threat modelling for builds",
           "Brand-compliant documents with cover pages and pagination"
         ],
         "defaultPrompt": [
+          "Assemble the 10-person Infeara team and plan this client engagement",
           "Use the Infeara document writer to format this as a branded report",
-          "Use the Infeara CEO skill to shape our next quarter's strategy",
-          "Review this contract with the Infeara legal expert"
+          "Build a Google Ads and Meta Ads plan with the Infeara digital marketing expert"
         ],
         "brandColor": "#055998",
         "brandColorDark": "#F16935",
@@ -58,7 +58,7 @@
       },
       "onboardingSkill": "./skills/get-started/SKILL.md",
       "publication": {
-        "release_notes": "Adds the professional document writer skill (cover pages, pagination, letterhead and brand typography) alongside the 22 expert skills."
+        "release_notes": "Adds a 10-role delivery team (engagement manager, solution architect, tech lead, implementation engineer, QA, deployment, documentation, security, project and account manager) plus a team lead and sprint orchestrator."
       }
     }
   }

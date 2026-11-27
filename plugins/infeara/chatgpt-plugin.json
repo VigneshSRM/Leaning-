@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "infeara",
   "version": "1.0.0",
-  "description": "Thirty-six Infeara skills — 23 expert personas plus a 10-role delivery team and orchestrator — for business, technology, security, audit, legal, marketing, and document work.",
+  "description": "Fifty-one Infeara skills — 23 expert personas, a 10-role delivery team, and a 15-person sales and marketing team — for business, technology, security, audit, legal, marketing, and document work.",
   "license": "MIT",
   "author": {
     "name": "Infeara"
@@ -33,22 +33,23 @@
     "com.openai": {
       "interface": {
         "displayName": "Infeara",
-        "shortDescription": "36 skills + 10-role team",
-        "longDescription": "Infeara packages 36 skills into one plugin. The expert library covers chief executive, financial, technology and operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance; and cloud, DevOps, server, network and cyber security specialists. On top of that sits a delivery team of ten collaborating roles — engagement manager, solution architect, technical lead, implementation engineer, QA engineer, deployment engineer, documentation analyst, security analyst, project manager and account manager — coordinated by a team lead and a sprint orchestrator across discovery, design, build, verify, release, document and handover. Each skill supplies playbooks, templates, quality checklists and guardrails, and hands work to the roles that own adjacent decisions. The plugin runs entirely on packaged instructions: no network calls, no data collection, nothing stored outside the conversation. It does not execute code, sign contracts, file with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
+        "shortDescription": "51 skills · 2 full teams",
+        "longDescription": "Infeara packages 51 skills into one plugin. The expert library covers chief executive, financial, technology and operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance; and cloud, DevOps, server, network and cyber security specialists. Two full teams sit on top. A ten-role delivery team — engagement manager, solution architect, technical lead, implementation engineer, QA, deployment, documentation, security, project and account manager — runs engagements from discovery to handover. A fifteen-person revenue team — GTM strategist, product marketing, brand, content, campaigns, SEO, marketing ops, SDR, account executive, solutions consultant, sales ops, proposals and partnerships — runs demand creation and conversion against one pipeline number, with orchestration by a team lead, a sprint orchestrator and a pipeline orchestrator. Each skill supplies playbooks, templates, quality checklists and guardrails, and hands work to the roles that own adjacent decisions. The plugin runs entirely on packaged instructions: no network calls, no data collection, nothing stored outside the conversation. It does not execute code, sign contracts, file with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
         "developerName": "Infeara",
         "category": "Productivity",
         "capabilities": [
           "Expert guidance across 23 business and technology domains",
           "Ten-role delivery team with defined handoffs and gates",
-          "Sprint planning, ceremonies and cross-role coordination",
+          "Fifteen-person sales and marketing team with funnel maths",
+          "Pipeline reviews, forecasting and SLA tracking",
           "Test strategy, release and rollback planning",
           "Security review and threat modelling for builds",
           "Brand-compliant documents with cover pages and pagination"
         ],
         "defaultPrompt": [
-          "Assemble the 10-person Infeara team and plan this client engagement",
-          "Use the Infeara document writer to format this as a branded report",
-          "Build a Google Ads and Meta Ads plan with the Infeara digital marketing expert"
+          "Build the Infeara 15-person revenue team and plan to hit this target",
+          "Assemble the 10-person delivery team for this client engagement",
+          "Use the Infeara document writer to format this as a branded report"
         ],
         "brandColor": "#055998",
         "brandColorDark": "#F16935",
@@ -58,7 +59,7 @@
       },
       "onboardingSkill": "./skills/get-started/SKILL.md",
       "publication": {
-        "release_notes": "Adds a 10-role delivery team (engagement manager, solution architect, tech lead, implementation engineer, QA, deployment, documentation, security, project and account manager) plus a team lead and sprint orchestrator."
+        "release_notes": "Adds a 15-person sales and marketing team (GTM, product marketing, brand, content, campaigns, SEO, marketing ops, SDR, account executive, solutions consultant, sales ops, proposals, partnerships) plus a revenue lead and pipeline orchestrator, alongside the existing 10-role delivery team."
       }
     }
   }

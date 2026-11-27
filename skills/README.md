@@ -1,10 +1,10 @@
 # Infeara Agent Skills for Claude & ChatGPT
 
-36 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
+51 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
 
 Each skill is a folder containing a `SKILL.md` with YAML frontmatter (`name` + `description`) and a focused playbook. Claude and ChatGPT auto-discover skills by matching the `description` against the user's request — no manual invocation needed, though you can also name a skill explicitly (e.g. *"Use the Infeara CFO skill to…"*).
 
-The same 36 skills ship in two packages:
+The same 51 skills ship in two packages:
 
 | Package | Location | Install |
 |---|---|---|
@@ -57,7 +57,29 @@ The same 36 skills ship in two packages:
 | 35 | `infeara-team-project-manager` | Project Manager | Plan, schedule, dependencies, risks, status |
 | 36 | `infeara-team-account-manager` | Account Manager | Relationship, health, renewal, expansion |
 
-**How the team works:** `infeara-team-lead` assigns work along the engagement lifecycle (qualify → discover → design → plan → build → verify → release → document → handover → close). Each role hands off a named artefact with acceptance criteria; `infeara-sprint-orchestrator` runs the weekly rhythm. Ask for the team with: *"Assemble the Infeara team for this client"* or *"Who owns this?"*.
+### Revenue team — 15 roles for sales and marketing
+
+| # | Skill | Role | Owns |
+|---|---|---|---|
+| 37 | `infeara-revenue-lead` | Revenue Team Lead | Target, pipeline coverage, arbitration |
+| 38 | `infeara-revenue-pipeline-orchestrator` | Pipeline Orchestrator | Funnel reviews, SLA, forecast truth |
+| 39 | `infeara-revenue-gtm-strategist` | GTM Strategist | Segmentation, positioning, launch, pricing input |
+| 40 | `infeara-revenue-product-marketing` | Product Marketing | Messaging, proof, enablement, battlecards |
+| 41 | `infeara-revenue-brand-manager` | Brand Manager | Voice, visual system, brand audits |
+| 42 | `infeara-revenue-content-manager` | Content Manager | Editorial engine, production, repurposing |
+| 43 | `infeara-revenue-campaign-manager` | Campaign Manager | Integrated campaigns, launches, webinars, events |
+| 44 | `infeara-revenue-seo-specialist` | SEO & Web Specialist | Organic search, technical SEO, landing pages |
+| 45 | `infeara-revenue-marketing-ops` | Marketing Operations | Martech, tracking, attribution, lead scoring |
+| 46 | `infeara-revenue-sdr` | SDR / Lead Qualifier | Outbound, inbound qualification, meeting booking |
+| 47 | `infeara-revenue-account-executive` | Account Executive | Discovery, demo, business case, close |
+| 48 | `infeara-revenue-solutions-consultant` | Solutions Consultant | Technical validation, POCs, scoping |
+| 49 | `infeara-revenue-sales-ops` | Sales Operations | CRM, stages, forecast mechanics, territories |
+| 50 | `infeara-revenue-proposal-manager` | Proposal / Bid Manager | RFPs, proposals, compliance matrices |
+| 51 | `infeara-revenue-partnerships-manager` | Partnerships Manager | Channel, reseller, alliance pipeline |
+
+**How the revenue team works:** `infeara-revenue-lead` sets the target and decomposes it into funnel maths; seven marketing roles create demand, six sales roles convert it, and `infeara-revenue-pipeline-orchestrator` runs the weekly review. Both directions carry SLAs, and both teams report one pipeline number. Ask with: *"Build the Infeara revenue team for this target"* or *"Plan sales and marketing for this offer"*.
+
+**How the delivery team works:** `infeara-team-lead` assigns work along the engagement lifecycle (qualify → discover → design → plan → build → verify → release → document → handover → close). Each role hands off a named artefact with acceptance criteria; `infeara-sprint-orchestrator` runs the weekly rhythm. Ask for the team with: *"Assemble the Infeara team for this client"* or *"Who owns this?"*.
 
 ## How Claude uses these skills
 
@@ -92,7 +114,7 @@ Upload a skill as a zip: zip one skill folder (it must contain `SKILL.md` at the
 
 ```bash
 ./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-chatgpt-1.0.0.zip
-python3 scripts/validate-plugin.py   # 350 checks: manifest, limits, icons, skills
+python3 scripts/validate-plugin.py   # 471 checks: manifest, limits, icons, skills
 ```
 
 Upload the ZIP at [platform.openai.com/plugins](https://platform.openai.com/plugins) (verified developer identity required), resolve any automated findings, and submit. The package uses the Infeara mark as its icon and adds a `get-started` onboarding skill that routes requests to the right expert. See [`plugins/infeara/README.md`](plugins/infeara/README.md) for the local-marketplace testing flow and the pre-submission URL checklist.

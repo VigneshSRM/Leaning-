@@ -5,7 +5,7 @@ description: "Start here on first use of the Infeara plugin, or when the user as
 
 # Infeara — Getting Started
 
-Infeara bundles 23 expert skills plus a 10-role delivery team with a team lead and sprint orchestrator — 36 skills in total. Each one carries its own playbooks, templates, quality checklist, and guardrails. This skill routes a request to the right expert and explains what the plugin can do.
+Infeara bundles 23 expert skills, a 10-role delivery team and a 15-person sales and marketing team — 51 skills in total, with a lead and orchestrator for each team. Each one carries its own playbooks, templates, quality checklist, and guardrails. This skill routes a request to the right expert and explains what the plugin can do.
 
 ## How to use the plugin
 
@@ -61,12 +61,33 @@ If the user names an expert ("use the Infeara CFO skill"), load it directly. If 
 | Project plan, schedule, milestones, risks, status | `infeara-team-project-manager` |
 | Client health, renewal, expansion, escalation | `infeara-team-account-manager` |
 
+### Revenue team — sales and marketing (15)
+
+| The request sounds like… | Skill |
+|---|---|
+| "Build a sales and marketing team", revenue plan, GTM org | `infeara-revenue-lead` |
+| Pipeline review, funnel analysis, forecast, conversion | `infeara-revenue-pipeline-orchestrator` |
+| Segmentation, positioning, launch, pricing input | `infeara-revenue-gtm-strategist` |
+| Messaging, battlecards, sales enablement, proof | `infeara-revenue-product-marketing` |
+| Brand voice, visual identity, brand audit | `infeara-revenue-brand-manager` |
+| Content strategy, editorial calendar, production | `infeara-revenue-content-manager` |
+| Campaigns, launches, webinars, events | `infeara-revenue-campaign-manager` |
+| SEO, organic, landing pages | `infeara-revenue-seo-specialist` |
+| Tracking, attribution, lead scoring, martech | `infeara-revenue-marketing-ops` |
+| Cold outreach, prospecting, qualifying | `infeara-revenue-sdr` |
+| Deal strategy, discovery, demo, close | `infeara-revenue-account-executive` |
+| POC, technical validation, pre-sales scoping | `infeara-revenue-solutions-consultant` |
+| Sales process, CRM, forecast mechanics, territories | `infeara-revenue-sales-ops` |
+| RFP, proposal, bid decision, compliance matrix | `infeara-revenue-proposal-manager` |
+| Partners, channel, resellers, alliances | `infeara-revenue-partnerships-manager` |
+
 ## Common multi-expert chains
 
 - **New offer** → Founder (is the bet worth it?) → CFO (does it pay?) → Marketing (how do we position it?) → Sales (can we sell it?) → Legal (what are we promising?).
 - **Enterprise client** → Sales (deal) → Legal (contract) → COO (delivery) → Client Success (retention) → CISO Auditor (security questionnaire).
 - **Client-facing report** → subject expert (audit/finance/security content) → Document Writer (cover, pagination, brand, PDF).
 - **Full engagement** → Team Lead assembles the ten roles; Engagement Manager scopes → Architect designs → Tech Lead builds → QA verifies → Deployment releases → Documentation hands over → Account Manager closes and grows. Sprint Orchestrator runs the weekly rhythm.
+- **Revenue target** → Revenue Lead sets target and funnel maths; GTM Strategist picks segments → Product Marketing writes the message → Brand/Content/SEO/Campaigns create demand → Marketing Ops tracks and scores → SDR qualifies → Account Executive closes → Proposal Manager handles bids → Partnerships adds channel. Pipeline Orchestrator runs the weekly review.
 - **Single-role ask** ("write the code", "plan the sprint") → go straight to that team role skill, not the Team Lead.
 - **Incident** → Cyber Security (contain) → DevOps (restore) → Compliance (notify) → Legal (exposure) → Client Success (communicate).
 - **Pricing change** → CFO (model) → Sales (pipeline impact) → Marketing (packaging) → Legal (terms).

@@ -1,6 +1,6 @@
 # Infeara — Claude & ChatGPT Project Guide
 
-This repo contains 36 Infeara skills (see `skills/README.md` for the catalog), shipped as Claude skills and as a ChatGPT/Codex plugin.
+This repo contains 51 Infeara skills (see `skills/README.md` for the catalog), shipped as Claude skills and as a ChatGPT/Codex plugin.
 
 ## Where things live
 

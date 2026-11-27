@@ -1,6 +1,24 @@
-# Build output — regenerate with ./scripts/build-plugin.sh
-dist/*.zip
+# Build artifacts
+dist/
+*.zip
 
-# OS noise
+# Manual tool exports — may contain personal data, never commit
+integrations/inbox/*.csv
+integrations/inbox/*.xlsx
+integrations/inbox/*.json
+
+# Loop output is regenerable; keep the folders, ignore the contents
+integrations/outbox/**/*.md
+!integrations/outbox/README.md
+
+# REAL company data must never be committed to this public repo.
+# The tracked knowledge/ files are [VERIFY] templates with no real values.
+# Put real figures in knowledge/local/ — gitignored, and overrides the template.
+knowledge/local/
+knowledge/case-studies/*.md
+!knowledge/case-studies/README.md
+
+# OS / editor
 .DS_Store
-__MACOSX/
+__pycache__/
+*.pyc

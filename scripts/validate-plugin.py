@@ -19,7 +19,7 @@ ALLOWED_CATEGORIES = {
     "Education", "Finance", "Health", "Lifestyle", "News", "Travel",
     "Food", "Shopping", "Entertainment", "Other",
 }
-EXPECTED_SKILLS = 51
+EXPECTED_SKILLS = 55
 errors: list[str] = []
 warnings: list[str] = []
 checks = 0
@@ -172,8 +172,12 @@ def main() -> int:
     experts = [p for p in skill_dirs if p.name.startswith("infeara-")]
     team = [p for p in skill_dirs if p.name.startswith("infeara-team-")]
     ok(len(team) == 11, f"expected 11 team role skills (10 roles + lead), found {len(team)}")
-    revenue = [p for p in skill_dirs if p.name.startswith("infeara-revenue-")]
-    ok(len(revenue) == 15, f"expected 15 revenue team skills (13 roles + lead + orchestrator), found {len(revenue)}")
+    loops = [p for p in skill_dirs if p.name.startswith("infeara-revenue-") and p.name.endswith("-orchestrator")
+             and p.name not in ("infeara-revenue-pipeline-orchestrator",)]
+    ok(len(loops) == 4, f"expected 4 autonomous loop skills, found {len(loops)}")
+    revenue = [p for p in skill_dirs
+               if p.name.startswith("infeara-revenue-") and p not in loops]
+    ok(len(revenue) == 15, f"expected 15 revenue team skills (13 roles + lead + pipeline orchestrator), found {len(revenue)}")
     ok(len(experts) == EXPECTED_SKILLS, f"expected {EXPECTED_SKILLS} expert skills, found {len(experts)}")
     ok(any(p.name == "get-started" for p in skill_dirs), "skills/get-started (onboarding) is missing")
     print(f"\nSkills: {len(skill_dirs)} folders")
@@ -206,6 +210,33 @@ def main() -> int:
             ok(resolved.is_file(), f"{d.name}: referenced file missing: {rel}")
     if len(experts) != EXPECTED_SKILLS:
         warnings.append(f"{len(experts)} expert skills bundled; run ./scripts/build-plugin.sh to resync skills/")
+
+    # --- knowledge base and tool contracts -----------------------------------
+    root_dir = PLUGIN.parent.parent
+    kb = root_dir / "knowledge"
+    if kb.is_dir():
+        required_kb = ["README.md", "about.md", "overview.md", "services.md",
+                       "pricing.md", "countries.md", "projects.md", "aeo-answers.md"]
+        for name in required_kb:
+            ok((kb / name).is_file(), f"knowledge/{name} is missing")
+        print(f"\nKnowledge base: {len(list(kb.glob('*.md')))} documents")
+    registry = root_dir / "integrations" / "tool-registry.json"
+    if registry.is_file():
+        data = json.loads(registry.read_text())
+        tools = {t["id"]: t for t in data.get("tools", [])}
+        for required in ("google-search-console", "infeara-crm", "infeara-cms"):
+            ok(required in tools, f"tool-registry: {required} not declared")
+        ok(tools.get("google-search-console", {}).get("status") == "live",
+           "tool-registry: Google Search Console must be live")
+        for staged in ("infeara-crm", "infeara-cms"):
+            entry = tools.get(staged, {})
+            ok(entry.get("status") == "staged", f"tool-registry: {staged} must be staged until its MCP ships")
+            ok(bool(entry.get("fallback_until_live")), f"tool-registry: {staged} needs a fallback_until_live block")
+        kb_docs = [d["file"] for d in data.get("knowledge_base", {}).get("documents", [])]
+        ok(len(kb_docs) >= 6, "tool-registry: knowledge_base.documents is incomplete")
+        for doc in kb_docs:
+            ok((root_dir / doc).is_file(), f"tool-registry references missing knowledge file: {doc}")
+        print(f"Tool contracts: {len(tools)} tools ({sum(1 for x in tools.values() if x['status'] == 'live')} live)")
 
     # --- plugin.json uniqueness across the repo -------------------------------
     # A Claude plugin ZIP must contain exactly one file named plugin.json.

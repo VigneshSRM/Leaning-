@@ -1,6 +1,6 @@
 # Leaning- — Infeara Agent Skills for Claude & ChatGPT
 
-51 Infeara skills covering executive, go-to-market, finance, technology, operations, audit, security, legal, and content work — from CEO and Founder (38–45+ years) to Google Ads & Meta Ads (49+ years). Packaged three ways: Claude Code, Claude.ai, and a **ChatGPT/Codex plugin** with the Infeara logo as its icon.
+55 Infeara skills covering executive, go-to-market, finance, technology, operations, audit, security, legal, and content work — from CEO and Founder (38–45+ years) to Google Ads & Meta Ads (49+ years). Packaged three ways: Claude Code, Claude.ai, and a **ChatGPT/Codex plugin** with the Infeara logo as its icon.
 
 ## Quick start
 
@@ -10,7 +10,7 @@
 | **Claude Code (this repo)** | Already wired via `.claude/skills/` — just ask, e.g. *"Use the Infeara CFO skill to review this pricing model"* |
 | **Claude Code (as a plugin)** | `/plugin install infeara --marketplace VigneshSRM/Leaning-` |
 | **Claude plugin upload (repo ZIP)** | Manifest at `.claude-plugin/plugin.json` at the repo root — zip the repo, keeping that path at the archive root |
-| **Claude Code (anywhere)** | `./scripts/install-skills.sh` → installs all 51 skills to `~/.claude/skills/` |
+| **Claude Code (anywhere)** | `./scripts/install-skills.sh` → installs all 55 skills to `~/.claude/skills/` |
 | **Claude.ai** | Upload any skill folder as a zip (must contain `SKILL.md`) via Settings → Capabilities → Skills |
 
 ## Getting expert-level output
@@ -19,6 +19,19 @@ The skills are a staff, not a menu. [`GUIDE.md`](GUIDE.md) covers the six-part b
 engagement modes, how to invoke individual sections (Quality Checklist, Guardrails, Playbooks),
 how to force reasoning, deliberate skill chaining, the output audit, anti-patterns, and
 copy-paste starter prompts.
+
+## Knowledge base and autonomous loops
+
+| Folder | What it is |
+|---|---|
+| `knowledge/` | **The only permitted source of company facts.** About, overview, services, pricing, countries, completed projects, and the AEO answer bank — one file each. Facts not in here are `[VERIFY]`, never invented. |
+| `integrations/tool-registry.json` | Tool contracts. Google Search Console is **live**; the CRM and CMS are **staged** with declared capabilities and a fallback for each until their MCPs ship. |
+| `integrations/state/autonomy-state.json` | Limits, thresholds and run state shared by the autonomous loops. |
+| `integrations/templates/` | Lead scorecard, SEO/AEO run, engagement run. |
+
+Four loops run the revenue team without being asked: lead operations, SEO/AEO, engagement, and a
+conductor that runs all three and produces one weekly brief. They **analyse, suggest and draft** —
+they never publish, send, or spend (`max_publish_per_run` and `max_outbound_messages_per_run` are `0`).
 
 ## How routing works
 
@@ -32,7 +45,7 @@ skill") is always honoured. See `skills/infeara-ceo/references/ceo-delegation-pr
 
 ## Skills
 
-See [`skills/README.md`](skills/README.md) for the full catalog of all 51 skills, routing table, and install instructions. The plugin package is documented in [`plugins/infeara/README.md`](plugins/infeara/README.md).
+See [`skills/README.md`](skills/README.md) for the full catalog of all 55 skills, routing table, and install instructions. The plugin package is documented in [`plugins/infeara/README.md`](plugins/infeara/README.md).
 
 | Area | Skills |
 |---|---|
@@ -43,11 +56,12 @@ See [`skills/README.md`](skills/README.md) for the full catalog of all 51 skills
 | Operations | Client Success Manager, Business & Management, Professional Document Writer |
 | Delivery team (12) | Team Lead, Sprint Orchestrator, Engagement Manager, Solution Architect, Tech Lead, Implementation Engineer, QA Engineer, Deployment Engineer, Documentation Analyst, Security Analyst, Project Manager, Account Manager |
 | Revenue team (15) | Revenue Lead, Pipeline Orchestrator, GTM Strategist, Product Marketing, Brand, Content, Campaign, SEO & Web, Marketing Ops, SDR, Account Executive, Solutions Consultant, Sales Ops, Proposal Manager, Partnerships |
+| Autonomous loops (4) | Lead Ops Orchestrator, SEO/AEO Orchestrator, Engagement Orchestrator, Weekly Loop Orchestrator |
 
 ## Layout
 
 ```
-skills/                       # Canonical skills — edit here (51 × SKILL.md)
+skills/                       # Canonical skills — edit here (55 × SKILL.md)
 .claude/skills/               # Mirror for Claude Code auto-discovery
 plugins/infeara/              # ChatGPT/Codex plugin package (manifest, icons, skills)
   plugin.json                 #   Agent Plugins manifest + OpenAI listing metadata
@@ -56,7 +70,7 @@ plugins/infeara/              # ChatGPT/Codex plugin package (manifest, icons, s
   .claude-plugin/plugin.json  #   same package installable in Claude Code
 .claude-plugin/marketplace.json  # Claude Code marketplace (/plugin install infeara)
 .agents/plugins/marketplace.json # ChatGPT desktop local marketplace (testing)
-scripts/install-skills.sh     # Install the 51 skills into any Claude setup
+scripts/install-skills.sh     # Install the 55 skills into any Claude setup
 scripts/build-plugin.sh       # Sync skills → plugin folder, build dist zip
 scripts/validate-plugin.py    # Validate manifest, limits, icons, skills
 ```

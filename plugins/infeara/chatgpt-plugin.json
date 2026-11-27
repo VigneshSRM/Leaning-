@@ -2,7 +2,7 @@
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "infeara",
   "version": "1.0.0",
-  "description": "Fifty-one Infeara skills — 23 expert personas, a 10-role delivery team, and a 15-person sales and marketing team — for business, technology, security, audit, legal, marketing, and document work.",
+  "description": "Fifty-five Infeara skills — 23 expert personas, a 10-role delivery team, a 15-person sales and marketing team, and four autonomous revenue loops — for business, technology, security, audit, legal, marketing, and document work.",
   "license": "MIT",
   "author": {
     "name": "Infeara"
@@ -33,23 +33,23 @@
     "com.openai": {
       "interface": {
         "displayName": "Infeara",
-        "shortDescription": "51 skills · 2 full teams",
-        "longDescription": "Infeara packages 51 skills into one plugin. The expert library covers chief executive, financial, technology and operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance; and cloud, DevOps, server, network and cyber security specialists. Two full teams sit on top. A ten-role delivery team — engagement manager, solution architect, technical lead, implementation engineer, QA, deployment, documentation, security, project and account manager — runs engagements from discovery to handover. A fifteen-person revenue team — GTM strategist, product marketing, brand, content, campaigns, SEO, marketing ops, SDR, account executive, solutions consultant, sales ops, proposals and partnerships — runs demand creation and conversion against one pipeline number, with orchestration by a team lead, a sprint orchestrator and a pipeline orchestrator. The chief executive acts as the entry point: given a multi-function task it decomposes the work, delegates each workstream to the internal role that owns it, sequences the handoffs and returns a single consolidated answer with attribution. Each skill supplies playbooks, templates, quality checklists and guardrails, and hands work to the roles that own adjacent decisions. The plugin runs entirely on packaged instructions: no network calls, no data collection, nothing stored outside the conversation. It does not execute code, sign contracts, file with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
+        "shortDescription": "55 skills · teams + loops",
+        "longDescription": "Infeara packages 51 skills into one plugin. The expert library covers chief executive, financial, technology and operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance; and cloud, DevOps, server, network and cyber security specialists. Two full teams sit on top. A ten-role delivery team — engagement manager, solution architect, technical lead, implementation engineer, QA, deployment, documentation, security, project and account manager — runs engagements from discovery to handover. A fifteen-person revenue team — GTM strategist, product marketing, brand, content, campaigns, SEO, marketing ops, SDR, account executive, solutions consultant, sales ops, proposals and partnerships — runs demand creation and conversion against one pipeline number, with orchestration by a team lead, a sprint orchestrator and a pipeline orchestrator. The chief executive acts as the entry point: given a multi-function task it decomposes the work, delegates each workstream to the internal role that owns it, sequences the handoffs and returns a single consolidated answer with attribution. Each skill supplies playbooks, templates, quality checklists and guardrails, and hands work to the roles that own adjacent decisions. Four autonomous loops run the revenue team without being asked: lead scoring and routing, SEO and answer-engine optimisation on live Search Console data, content and engagement analysis, and a conductor that produces one weekly brief. The loops analyse, suggest and draft only — they never publish, send or spend. All company facts come from a bundled knowledge base covering about, overview, services, pricing, countries and completed projects. The plugin runs entirely on packaged instructions: no network calls, no data collection, nothing stored outside the conversation. It does not execute code, sign contracts, file with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
         "developerName": "Infeara",
         "category": "Productivity",
         "capabilities": [
           "Agentic CEO that decomposes tasks and delegates to internal teams",
+          "Four autonomous loops: leads, SEO/AEO, engagement, weekly brief",
+          "Company knowledge base — services, pricing, countries, projects",
           "Expert guidance across 23 business and technology domains",
           "Ten-role delivery team with defined handoffs and gates",
           "Fifteen-person sales and marketing team with funnel maths",
-          "Pipeline reviews, forecasting and SLA tracking",
-          "Security review and threat modelling for builds",
           "Brand-compliant documents with cover pages and pagination"
         ],
         "defaultPrompt": [
-          "Use the Infeara CFO skill to give me a board-ready pricing decision",
-          "Give this growth task to the Infeara CEO and have the internal team deliver it",
-          "Run the Infeara revenue proposal manager checklist against this RFP"
+          "Run all four revenue loops and give me the weekly brief",
+          "Process these leads, score them against our ICP and tell me what to do",
+          "Run the SEO and AEO check and brief the content fixes"
         ],
         "brandColor": "#055998",
         "brandColorDark": "#F16935",
@@ -59,7 +59,7 @@
       },
       "onboardingSkill": "./skills/get-started/SKILL.md",
       "publication": {
-        "release_notes": "Routing update: the CEO now acts as the entry point for multi-function tasks, decomposing work and delegating to the delivery and revenue teams, then consolidating a single answer with attribution."
+        "release_notes": "Adds four autonomous revenue loops (lead ops, SEO/AEO on live Search Console, engagement, weekly conductor), a bundled company knowledge base (about, overview, services, pricing, countries, completed projects, AEO answers), and declared tool contracts for Search Console, CRM and CMS."
       }
     }
   }

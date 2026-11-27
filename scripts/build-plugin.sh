@@ -40,8 +40,15 @@ for d in "$SRC"/infeara-*/; do
   cp -R "$d". "$PLUGIN/skills/$name/"
   rm -rf "$PLUGIN/skills/$name/.DS_Store"
 done
+echo "==> Syncing skills/ -> .claude/skills/ (Claude Code mirror)"
+for d in "$SRC"/infeara-*/; do
+  name="$(basename "$d")"
+  rm -rf "$REPO_ROOT/.claude/skills/$name"
+  cp -R "$d" "$REPO_ROOT/.claude/skills/$name"
+done
+
 count=$(find "$PLUGIN/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
-echo "    $count skill folders (24 experts + 12 team roles + onboarding)"
+echo "    $count skill folders (55 expert skills + autonomous loops + onboarding)"
 
 if [[ $ZIP -eq 1 ]]; then
   mkdir -p "$DIST"
@@ -55,8 +62,17 @@ if [[ $ZIP -eq 1 ]]; then
   cp "$staging/chatgpt-plugin.json" "$staging/plugin.json"   # rename for the ChatGPT upload
   rm -f "$staging/chatgpt-plugin.json" "$staging/README.md"
   rm -rf "$staging/.claude-plugin"
-  ( cd "$staging" && zip -qr -X "$chatgpt_zip" plugin.json assets skills \
-      -x '*.DS_Store' '*__MACOSX*' )
+  # bundle the knowledge base so the deployed plugin can read company facts
+  if [[ -d "$REPO_ROOT/knowledge" ]]; then
+    cp -R "$REPO_ROOT/knowledge" "$staging/knowledge"
+    rm -f "$staging/knowledge/pricing.md" "$staging/knowledge/projects.md"
+    echo "    knowledge base bundled (pricing + projects excluded — restricted)"
+    kb_args="knowledge"
+  else
+    kb_args=""
+  fi
+  ( cd "$staging" && zip -qr -X "$chatgpt_zip" plugin.json assets skills $kb_args \
+      -x '*.DS_Store' '*__MACOSX*' -x 'knowledge/pricing.md' -x 'knowledge/projects.md' )
   rm -rf "$staging"
   echo "    $(unzip -l "$chatgpt_zip" | tail -n 1 | awk '{print $2}') entries, $(du -h "$chatgpt_zip" | cut -f1)"
 

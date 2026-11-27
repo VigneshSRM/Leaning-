@@ -1,0 +1,123 @@
+{
+  "$schema": "./tool-registry.schema.json",
+  "version": "1.0.0",
+  "updated": "2026-11-22",
+  "owner": "infeara-ceo",
+  "description": "Tool contracts for the Infeara revenue team's autonomous loops. A tool is usable only when its status is 'live'. Everything else must run from exports, or be marked as a mock output.",
+  "status_definitions": {
+    "live": "MCP connected and authenticated; the team may call it without asking.",
+    "staged": "MCP being built. The team consumes manual exports only, and marks outputs 'provisional'.",
+    "planned": "No tool. The team works from the knowledge base and manual input."
+  },
+  "tools": [
+    {
+      "id": "google-search-console",
+      "name": "Google Search Console",
+      "domain": "seo-aeo",
+      "status": "live",
+      "access": "mcp",
+      "mcp_server": "gsc",
+      "capabilities": [
+        "search-analytics.query: dimensions query|page|country|device, 16 months of history",
+        "url-inspection.inspect: index status, canonical, crawl result for one URL",
+        "sitemaps.list / sitemaps.submit",
+        "sites.list: verified properties and their permission level"
+      ],
+      "read_only": true,
+      "cadence": "daily pull, weekly analysis, monthly report",
+      "owner": "infeara-revenue-seo-specialist",
+      "consumers": [
+        "infeara-revenue-seo-specialist",
+        "infeara-revenue-content-manager",
+        "infeara-revenue-aeo-orchestrator",
+        "infeara-revenue-pipeline-orchestrator"
+      ],
+      "data_classification": "internal",
+      "failure_mode": "If the MCP is unavailable, request a CSV export of Search Analytics and continue; mark the analysis 'export-based'."
+    },
+    {
+      "id": "infeara-crm",
+      "name": "Infeara CRM",
+      "domain": "leads-pipeline",
+      "status": "staged",
+      "access": "mcp-pending",
+      "mcp_server": "crm",
+      "expected_capabilities": [
+        "leads.list / leads.get: new and unworked leads",
+        "leads.update: status, owner, qualification fields",
+        "activities.create: log outreach, calls, notes",
+        "deals.list / deals.update: stage, amount, close date",
+        "contacts.upsert: dedupe and enrich",
+        "events.subscribe: lead.created, deal.stage_changed (for trigger-driven loops)"
+      ],
+      "expected_auth": "service account with scoped write access to leads and activities",
+      "read_only": false,
+      "owner": "infeara-revenue-sales-ops",
+      "consumers": [
+        "infeara-revenue-lead-ops-orchestrator",
+        "infeara-revenue-sdr",
+        "infeara-revenue-marketing-ops",
+        "infeara-revenue-sales-ops",
+        "infeara-revenue-pipeline-orchestrator"
+      ],
+      "fallback_until_live": {
+        "input": "CSV export dropped in integrations/inbox/leads-YYYY-MM-DD.csv",
+        "required_columns": ["lead_id", "created_at", "source", "name", "company", "country", "email", "message", "utm_campaign"],
+        "output": "analysis + suggested actions written to integrations/outbox/, never written back to the CRM",
+        "label": "Every output must carry 'provisional — CRM not connected'"
+      },
+      "data_classification": "confidential-pii",
+      "data_rules": [
+        "Do not copy lead PII into knowledge/ or into any outbound content.",
+        "Do not store lead PII in the repo; work from the inbox file and delete after the run.",
+        "Reason codes and statuses are the only fields written back without human review."
+      ]
+    },
+    {
+      "id": "infeara-cms",
+      "name": "Infeara Website CMS",
+      "domain": "content-seo",
+      "status": "staged",
+      "access": "mcp-pending",
+      "mcp_server": "cms",
+      "expected_capabilities": [
+        "pages.list / pages.get: existing pages, slugs, metadata",
+        "pages.create / pages.update: draft-first, with publish flag",
+        "media.upload: images and documents",
+        "redirects.manage: 301 map",
+        "sitemap.ping: notify search engines after publish",
+        "schemas.get: page templates and required fields"
+      ],
+      "expected_auth": "editor token that can create drafts but not publish without approval",
+      "read_only": false,
+      "owner": "infeara-revenue-content-manager",
+      "consumers": [
+        "infeara-revenue-content-manager",
+        "infeara-revenue-seo-specialist",
+        "infeara-revenue-aeo-orchestrator",
+        "infeara-revenue-campaign-manager"
+      ],
+      "fallback_until_live": {
+        "input": "manual page inventory at integrations/inbox/cms-inventory.csv (url, title, target_keyword, status, last_updated)",
+        "output": "Markdown drafts in integrations/outbox/content/ with frontmatter (slug, title, meta_description, schema, internal_links)",
+        "publish": "human copies into the CMS; the team never claims a page is live",
+        "label": "Every output must carry 'draft — CMS not connected'"
+      },
+      "data_classification": "internal",
+      "publish_rule": "No skill publishes to the website. Drafts only, until a human approves."
+    }
+  ],
+  "knowledge_base": {
+    "root": "knowledge/",
+    "rule": "Only source of company facts. No fact outside these files.",
+    "documents": [
+      { "file": "knowledge/about.md", "covers": ["identity", "leadership", "credentials", "brand"], "owner": "infeara-ceo" },
+      { "file": "knowledge/overview.md", "covers": ["description", "pillars", "differentiators", "proof"], "owner": "infeara-revenue-product-marketing" },
+      { "file": "knowledge/services.md", "covers": ["offer", "deliverables", "boundaries"], "owner": "infeara-revenue-solutions-consultant" },
+      { "file": "knowledge/pricing.md", "covers": ["rate card", "discounts", "guardrails"], "owner": "infeara-cfo", "access": "restricted" },
+      { "file": "knowledge/countries.md", "covers": ["coverage", "delivery constraints", "restrictions"], "owner": "infeara-legal-expert" },
+      { "file": "knowledge/projects.md", "covers": ["completed work", "reference permission", "proof"], "owner": "infeara-team-account-manager", "access": "restricted" },
+      { "file": "knowledge/aeo-answers.md", "covers": ["canonical answers", "structured data"], "owner": "infeara-revenue-seo-specialist" }
+    ]
+  }
+}

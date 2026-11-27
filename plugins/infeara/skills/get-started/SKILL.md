@@ -5,7 +5,7 @@ description: "Start here on first use of the Infeara plugin, or when the user as
 
 # Infeara — Getting Started
 
-Infeara bundles 23 expert skills, a 10-role delivery team and a 15-person sales and marketing team — 51 skills in total, with a lead and orchestrator for each team. Each one carries its own playbooks, templates, quality checklist, and guardrails. This skill routes a request to the right expert and explains what the plugin can do.
+Infeara bundles 23 expert skills, a 10-role delivery team and a 15-person sales and marketing team — 55 skills in total — with a lead and orchestrator for each team, plus four autonomous loops. Each one carries its own playbooks, templates, quality checklist, and guardrails. This skill routes a request to the right expert and explains what the plugin can do.
 
 ## How to use the plugin
 
@@ -86,6 +86,15 @@ Full delegation protocol: `../infeara-ceo/references/ceo-delegation-protocol.md`
 | Threat model, security review, security sign-off | `infeara-team-security-analyst` |
 | Project plan, schedule, milestones, risks, status | `infeara-team-project-manager` |
 | Client health, renewal, expansion, escalation | `infeara-team-account-manager` |
+
+### Autonomous loops — they run themselves (4)
+
+| The request sounds like… | Skill |
+|---|---|
+| "Process these leads", "score the inbound" | `infeara-revenue-lead-ops-orchestrator` |
+| "Run SEO", "why did traffic drop", "AEO check" | `infeara-revenue-aeo-orchestrator` |
+| "What content works", "nurture", "engagement report" | `infeara-revenue-engagement-orchestrator` |
+| "Run all the loops", "weekly brief" | `infeara-revenue-weekly-loop-orchestrator` |
 
 ### Revenue team — sales and marketing (15)
 

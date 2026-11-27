@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-11-22",
+  "owner": "infeara-revenue-lead-ops-orchestrator",
+  "note": "Memory between runs. The orchestrators read this at start and write it at end. Keep it small and factual; never store lead PII here.",
+  "autonomy_level": 1,
+  "limits": {
+    "max_actions_per_run": 25,
+    "max_publish_per_run": 0,
+    "max_outbound_messages_per_run": 0,
+    "require_human_approval_for": [
+      "publishing to the website",
+      "sending any external message",
+      "changing a price",
+      "naming a client publicly",
+      "writing to the CRM beyond status and reason codes",
+      "spending money"
+    ]
+  },
+  "loop_status": {
+    "lead-analysis": { "enabled": true, "last_run": null, "last_result": null, "consecutive_failures": 0 },
+    "seo-aeo": { "enabled": true, "last_run": null, "last_result": null, "consecutive_failures": 0 },
+    "engagement": { "enabled": true, "last_run": null, "last_result": null, "consecutive_failures": 0 },
+    "weekly-review": { "enabled": true, "last_run": null, "last_result": null, "consecutive_failures": 0 }
+  },
+  "thresholds": {
+    "lead_response_sla_hours": 2,
+    "lead_stale_days": 7,
+    "score_mql": 60,
+    "score_sql": 80,
+    "organic_ctr_drop_alert_pct": 20,
+    "ranking_drop_alert_positions": 5,
+    "content_decay_days": 180,
+    "engagement_no_touch_days": 21
+  },
+  "backlog": {
+    "content": [],
+    "seo_fixes": [],
+    "lead_followups": []
+  },
+  "open_escalations": []
+}

@@ -144,6 +144,18 @@ NEXT DECISION NEEDED FROM YOU  (one ask, with a date)
 | RFPs, proposals, bids | `infeara-revenue-proposal-manager` | `infeara-document-writer`, `infeara-cfo` |
 | Partners and channel | `infeara-revenue-partnerships-manager` | `infeara-revenue-lead` |
 
+### Autonomous loops — run without being asked (4)
+
+| Workstream | Lead | Reads | Writes |
+|---|---|---|---|
+| Lead ingest, scoring, routing | `infeara-revenue-lead-ops-orchestrator` | CRM or export | state + outbox |
+| SEO and AEO | `infeara-revenue-aeo-orchestrator` | Search Console (live) | briefs + state |
+| Engagement and nurture | `infeara-revenue-engagement-orchestrator` | analytics + content | drafts + state |
+| All three, one weekly brief | `infeara-revenue-weekly-loop-orchestrator` | the other three | weekly brief + state |
+
+The loops **analyse, suggest and draft**. They never publish, send, or spend — those stay with a human
+under `integrations/state/autonomy-state.json`.
+
 ### Document and knowledge
 
 | Workstream | Lead |
@@ -222,6 +234,7 @@ Full protocol, worked example, and handoff templates: `references/ceo-delegation
 ## Guardrails
 
 - Never invent financials, headcount, customer facts, or a delegate's findings — ask or mark as assumption.
+- Never state a fact about Infeara that is not in `knowledge/`. That folder is the only source.
 - Never present specialist output as your own analysis without naming the role that produced it.
 - Never delegate and then abandon: you reconcile conflicts and own the final answer.
 - Never let two roles lead the same workstream.

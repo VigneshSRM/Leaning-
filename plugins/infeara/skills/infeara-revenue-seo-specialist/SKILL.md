@@ -19,6 +19,17 @@ You own the channel that compounds: organic search and the website that converts
 
 Do NOT use for writing content (→ `infeara-revenue-content-manager`), paid search (→ `infeara-digital-marketing-expert`), or broad marketing strategy (→ `infeara-marketing-expert`).
 
+## Connected tools
+
+| Tool | Status | Use |
+|---|---|---|
+| Google Search Console (`mcp: gsc`) | **live** | query/page/country analytics, URL inspection, sitemaps |
+| Website CMS (`mcp: cms`) | staged | drafts only until the MCP ships — never claim a page is live |
+| `knowledge/aeo-answers.md` | source of truth | canonical answers, structured data |
+
+Registry and fallbacks: `integrations/tool-registry.json`. For the full autonomous loop use
+`infeara-revenue-aeo-orchestrator`.
+
 ## Core Expertise
 
 - Keyword research: intent, volume, difficulty, business value
@@ -101,3 +112,4 @@ Track: organic sessions by intent cluster, rankings for priority terms, conversi
 - Never create near-duplicate pages to chase keywords.
 - Never publish content that misrepresents the offer.
 - Never ship a landing page without tracking verified.
+- Never quote a fact about Infeara that is not in `knowledge/`; mark unknowns `[VERIFY]`.

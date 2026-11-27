@@ -1,10 +1,10 @@
 # Infeara Agent Skills for Claude & ChatGPT
 
-51 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
+55 Agent Skills (open Agent Skills standard) covering Infeara's executive, go-to-market, finance, technology, operations, audit, security, legal, and content functions.
 
 Each skill is a folder containing a `SKILL.md` with YAML frontmatter (`name` + `description`) and a focused playbook. Claude and ChatGPT auto-discover skills by matching the `description` against the user's request — no manual invocation needed, though you can also name a skill explicitly (e.g. *"Use the Infeara CFO skill to…"*).
 
-The same 51 skills ship in two packages:
+The same 55 skills ship in two packages:
 
 | Package | Location | Install |
 |---|---|---|
@@ -77,6 +77,19 @@ The same 51 skills ship in two packages:
 | 50 | `infeara-revenue-proposal-manager` | Proposal / Bid Manager | RFPs, proposals, compliance matrices |
 | 51 | `infeara-revenue-partnerships-manager` | Partnerships Manager | Channel, reseller, alliance pipeline |
 
+### Autonomous loops — 4 skills that run without being asked
+
+| # | Skill | Loop | Trigger |
+|---|---|---|---|
+| 52 | `infeara-revenue-lead-ops-orchestrator` | Leads: ingest → score → route → propose → escalate | New leads / export |
+| 53 | `infeara-revenue-aeo-orchestrator` | SEO + AEO: pull GSC → find → brief → verify in 28 days | Weekly |
+| 54 | `infeara-revenue-engagement-orchestrator` | Engagement: observe → keep/refresh/kill → warm signals | Weekly |
+| 55 | `infeara-revenue-weekly-loop-orchestrator` | Conductor: runs all three, reconciles, one weekly brief | Weekly |
+
+**How the loops work:** each loop reads `integrations/state/autonomy-state.json` for its limits before
+acting, pulls facts only from `knowledge/`, and writes its result back. Nothing is published or sent —
+`max_publish_per_run` and `max_outbound_messages_per_run` are `0` until a human raises them.
+
 **How the revenue team works:** `infeara-revenue-lead` sets the target and decomposes it into funnel maths; seven marketing roles create demand, six sales roles convert it, and `infeara-revenue-pipeline-orchestrator` runs the weekly review. Both directions carry SLAs, and both teams report one pipeline number. Ask with: *"Build the Infeara revenue team for this target"* or *"Plan sales and marketing for this offer"*.
 
 **How the delivery team works:** `infeara-team-lead` assigns work along the engagement lifecycle (qualify → discover → design → plan → build → verify → release → document → handover → close). Each role hands off a named artefact with acceptance criteria; `infeara-sprint-orchestrator` runs the weekly rhythm. Ask for the team with: *"Assemble the Infeara team for this client"* or *"Who owns this?"*.
@@ -114,7 +127,7 @@ Upload a skill as a zip: zip one skill folder (it must contain `SKILL.md` at the
 
 ```bash
 ./scripts/build-plugin.sh            # syncs skills/, validates, builds dist/infeara-chatgpt-1.0.0.zip
-python3 scripts/validate-plugin.py   # 471 checks: manifest, limits, icons, skills
+python3 scripts/validate-plugin.py   # 531 checks: manifest, limits, icons, skills, knowledge base, tool contracts
 ```
 
 Upload the ZIP at [platform.openai.com/plugins](https://platform.openai.com/plugins) (verified developer identity required), resolve any automated findings, and submit. The package uses the Infeara mark as its icon and adds a `get-started` onboarding skill that routes requests to the right expert. See [`plugins/infeara/README.md`](plugins/infeara/README.md) for the local-marketplace testing flow and the pre-submission URL checklist.

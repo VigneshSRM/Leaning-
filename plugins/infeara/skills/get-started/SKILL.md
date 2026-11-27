@@ -1,6 +1,6 @@
 ---
 name: get-started
-description: "Start here on first use of the Infeara plugin, or when the user asks what the plugin can do, which expert handles a topic, or says 'infeara', 'which skill', 'who should handle this', 'what can you do', 'list your experts'. Routes the request to the right expert skill."
+description: "Start here on first use of the Infeara plugin, or when the user asks what the plugin can do, which expert or team handles a topic, or says 'infeara', 'which skill', 'who should handle this', 'what can you do', 'list your experts'. Explains the CEO-as-entry-point routing model and routes the request."
 ---
 
 # Infeara — Getting Started
@@ -9,18 +9,44 @@ Infeara bundles 23 expert skills, a 10-role delivery team and a 15-person sales 
 
 ## How to use the plugin
 
-1. **Pick one primary expert.** Read the routing table below and load the single best match.
-2. **Load the skill before answering.** Read `skills/<name>/SKILL.md` and follow it — its playbooks, deliverables, and checklists take priority over general habits.
-3. **Chain only when the task spans domains.** A sales proposal may need Sales + CFO + Legal. Name the handoffs explicitly instead of blending voices.
-4. **Apply the guardrails.** Never invent financials, client facts, evidence, or legal advice; mark unknowns as `[VERIFY]`.
+**The CEO is the front door.** Any task that spans more than one function goes to `infeara-ceo`, which
+decomposes it, assigns internal roles, sequences handoffs, and returns one consolidated answer.
 
-If the user names an expert ("use the Infeara CFO skill"), load it directly. If the request is ambiguous between two experts, ask one short question rather than guessing.
+```
+Task arrives
+  ├─ single-domain question?  → route straight to that one skill
+  ├─ names a skill?           → honour it, no orchestration
+  └─ multi-function / project / "handle this" / "get the team on it"
+                              → infeara-ceo (delegates to internal team, consolidates)
+```
+
+1. **Triage the request** using the table below.
+2. **Multi-function work goes to the CEO**, not to ten separate skills answering in parallel.
+3. **Single-domain work routes direct.** Read `skills/<name>/SKILL.md` and follow it — its playbooks, deliverables, and checklists take priority over general habits.
+4. **Chain only when needed.** A sales proposal may need Sales + CFO + Legal. Name handoffs explicitly instead of blending voices.
+5. **Attribute delegated findings.** Say which role produced which conclusion; never present a delegate's work as your own analysis.
+6. **Apply the guardrails.** Never invent financials, client facts, evidence, or legal advice; mark unknowns as `[VERIFY]`.
+
+If the user names an expert ("use the Infeara CFO skill"), load it directly. If a project arrives without
+a named owner, start with `infeara-ceo`. If the request is ambiguous between two experts, ask one short question rather than guessing.
+
+Full delegation protocol: `../infeara-ceo/references/ceo-delegation-protocol.md` (from the `infeara-ceo` skill folder).
 
 ## Routing table
+
+### Start here
 
 | The request sounds like… | Skill |
 |---|---|
 | Strategy, vision, board, M&A, executive decision | `infeara-ceo` |
+| **Multi-function task, project, "handle this", "get the team on it", "who does what"** | **`infeara-ceo`** |
+| Which skill handles something / how routing works | `infeara-guide` |
+
+### Expert personas
+
+| The request sounds like… | Skill |
+|---|---|
+| Positioning, go-to-market, campaigns, demand generation | `infeara-marketing-expert` |
 | Positioning, go-to-market, campaigns, demand generation | `infeara-marketing-expert` |
 | Pipeline, proposals, pricing, negotiation, forecasting | `infeara-sales-expert` |
 | Budget, P&L, cash flow, margin, unit economics | `infeara-cfo` |
@@ -86,6 +112,7 @@ If the user names an expert ("use the Infeara CFO skill"), load it directly. If 
 - **New offer** → Founder (is the bet worth it?) → CFO (does it pay?) → Marketing (how do we position it?) → Sales (can we sell it?) → Legal (what are we promising?).
 - **Enterprise client** → Sales (deal) → Legal (contract) → COO (delivery) → Client Success (retention) → CISO Auditor (security questionnaire).
 - **Client-facing report** → subject expert (audit/finance/security content) → Document Writer (cover, pagination, brand, PDF).
+- **Multi-function task** → CEO triages, decomposes into workstreams, assigns one lead each, consolidates the answer. The user sees one reply, not ten.
 - **Full engagement** → Team Lead assembles the ten roles; Engagement Manager scopes → Architect designs → Tech Lead builds → QA verifies → Deployment releases → Documentation hands over → Account Manager closes and grows. Sprint Orchestrator runs the weekly rhythm.
 - **Revenue target** → Revenue Lead sets target and funnel maths; GTM Strategist picks segments → Product Marketing writes the message → Brand/Content/SEO/Campaigns create demand → Marketing Ops tracks and scores → SDR qualifies → Account Executive closes → Proposal Manager handles bids → Partnerships adds channel. Pipeline Orchestrator runs the weekly review.
 - **Single-role ask** ("write the code", "plan the sprint") → go straight to that team role skill, not the Team Lead.

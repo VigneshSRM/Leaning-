@@ -199,8 +199,11 @@ def main() -> int:
             ok(len(value) >= 40, f"{d.name}: description is too short to trigger reliably")
             ok(len(value) <= 1024, f"{d.name}: description exceeds 1024 chars")
         # supporting files referenced from the skill body must ship
-        for rel in sorted(set(re.findall(r"(?:assets|references)/[A-Za-z0-9._-]+", text))):
-            ok((d / rel).is_file(), f"{d.name}: referenced file missing: {rel}")
+        # referenced supporting files must exist; ../<sibling-skill>/... resolves to that sibling
+        for rel in sorted(set(re.findall(
+                r"(?:\.\./[A-Za-z0-9._-]+/)?(?:assets|references)/[A-Za-z0-9._-]+", text))):
+            resolved = (d / rel).resolve()
+            ok(resolved.is_file(), f"{d.name}: referenced file missing: {rel}")
     if len(experts) != EXPECTED_SKILLS:
         warnings.append(f"{len(experts)} expert skills bundled; run ./scripts/build-plugin.sh to resync skills/")
 

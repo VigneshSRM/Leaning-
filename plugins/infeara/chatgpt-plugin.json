@@ -34,21 +34,21 @@
       "interface": {
         "displayName": "Infeara",
         "shortDescription": "51 skills · 2 full teams",
-        "longDescription": "Infeara packages 51 skills into one plugin. The expert library covers chief executive, financial, technology and operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance; and cloud, DevOps, server, network and cyber security specialists. Two full teams sit on top. A ten-role delivery team — engagement manager, solution architect, technical lead, implementation engineer, QA, deployment, documentation, security, project and account manager — runs engagements from discovery to handover. A fifteen-person revenue team — GTM strategist, product marketing, brand, content, campaigns, SEO, marketing ops, SDR, account executive, solutions consultant, sales ops, proposals and partnerships — runs demand creation and conversion against one pipeline number, with orchestration by a team lead, a sprint orchestrator and a pipeline orchestrator. Each skill supplies playbooks, templates, quality checklists and guardrails, and hands work to the roles that own adjacent decisions. The plugin runs entirely on packaged instructions: no network calls, no data collection, nothing stored outside the conversation. It does not execute code, sign contracts, file with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
+        "longDescription": "Infeara packages 51 skills into one plugin. The expert library covers chief executive, financial, technology and operating officers; founder and co-founder; marketing, sales, digital marketing (Google Ads and Meta Ads) and content; a professional document writer for cover pages, pagination, letterheads and brand typography; research and development, client success, business management and legal; lead auditor, CISO auditor and compliance; and cloud, DevOps, server, network and cyber security specialists. Two full teams sit on top. A ten-role delivery team — engagement manager, solution architect, technical lead, implementation engineer, QA, deployment, documentation, security, project and account manager — runs engagements from discovery to handover. A fifteen-person revenue team — GTM strategist, product marketing, brand, content, campaigns, SEO, marketing ops, SDR, account executive, solutions consultant, sales ops, proposals and partnerships — runs demand creation and conversion against one pipeline number, with orchestration by a team lead, a sprint orchestrator and a pipeline orchestrator. The chief executive acts as the entry point: given a multi-function task it decomposes the work, delegates each workstream to the internal role that owns it, sequences the handoffs and returns a single consolidated answer with attribution. Each skill supplies playbooks, templates, quality checklists and guardrails, and hands work to the roles that own adjacent decisions. The plugin runs entirely on packaged instructions: no network calls, no data collection, nothing stored outside the conversation. It does not execute code, sign contracts, file with a regulator, or replace qualified legal, financial or audit professionals; outputs are working drafts for a human to review.",
         "developerName": "Infeara",
         "category": "Productivity",
         "capabilities": [
+          "Agentic CEO that decomposes tasks and delegates to internal teams",
           "Expert guidance across 23 business and technology domains",
           "Ten-role delivery team with defined handoffs and gates",
           "Fifteen-person sales and marketing team with funnel maths",
           "Pipeline reviews, forecasting and SLA tracking",
-          "Test strategy, release and rollback planning",
           "Security review and threat modelling for builds",
           "Brand-compliant documents with cover pages and pagination"
         ],
         "defaultPrompt": [
+          "Give this task to the Infeara CEO and have the internal team deliver it",
           "Build the Infeara 15-person revenue team and plan to hit this target",
-          "Assemble the 10-person delivery team for this client engagement",
           "Use the Infeara document writer to format this as a branded report"
         ],
         "brandColor": "#055998",
@@ -59,7 +59,7 @@
       },
       "onboardingSkill": "./skills/get-started/SKILL.md",
       "publication": {
-        "release_notes": "Adds a 15-person sales and marketing team (GTM, product marketing, brand, content, campaigns, SEO, marketing ops, SDR, account executive, solutions consultant, sales ops, proposals, partnerships) plus a revenue lead and pipeline orchestrator, alongside the existing 10-role delivery team."
+        "release_notes": "Routing update: the CEO now acts as the entry point for multi-function tasks, decomposing work and delegating to the delivery and revenue teams, then consolidating a single answer with attribution."
       }
     }
   }

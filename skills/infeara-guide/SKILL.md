@@ -1,11 +1,44 @@
 ---
 name: infeara-guide
-description: "Orientation and routing guide for the Infeara skill library in this repository. Use when the user asks which Infeara expert handles a topic, how the skills are organised, where files live, how to rebuild the plugin, or says 'which skill', 'who handles', 'repo structure', 'how do I build', 'plugin rules'. Not a business expert — it points to the right one."
+description: "Orientation and routing guide for the Infeara skill library. Use when the user asks which Infeara expert or team handles a topic, how work is delegated, how the skills are organised, where files live, or says 'which skill', 'who handles this', 'how does routing work', 'how do I build', 'plugin rules'. Explains the CEO-as-entry-point model. Not a business expert — it points to the right one."
 ---
 
 # Infeara — Library Guide
 
-This repository ships 23 Infeara expert skills, published three ways: Claude Code (`.claude/skills/`), a Claude Code plugin, and a ChatGPT/Codex plugin. This skill is the map: it routes a request to the right expert and documents how the library is built.
+This repository ships 51 Infeara skills — 23 expert personas, a 12-skill delivery team and a 15-skill revenue team — published three ways: Claude Code (`.claude/skills/`), a Claude Code plugin, and a ChatGPT/Codex plugin. This skill is the map: it explains how work is routed and documents how the library is built.
+
+## Routing model — the CEO is the front door
+
+Any task that spans more than one function goes to **`infeara-ceo`**, which acts as the agentic
+entry point: it decomposes the task into workstreams, assigns one internal role per workstream,
+sequences the handoffs, reconciles disagreement, and returns a single consolidated answer.
+
+```
+User task
+   ▼
+infeara-ceo  ── triage ─▶ single-domain?  ── yes ─▶ route straight to that one skill
+   │                   └─ decision?      ── yes ─▶ CEO decides (consults 2–3 leads)
+   │                   └─ project?       ── yes ─▶ decompose + delegate
+   │                   └─ crisis?        ── yes ─▶ CEO commands, one incident owner
+   ▼
+Internal teams (34 roles)
+   ├─ Executive peers ........ CFO · CTO · COO · Legal · Client Success · Auditors · Founder
+   ├─ Delivery team (12) ..... team lead · sprint orchestrator · 10 delivery roles
+   └─ Revenue team (15) ...... revenue lead · pipeline orchestrator · 13 revenue roles
+   ▼
+Consolidated answer (decision · why · who did what · plan · risks · ask)
+```
+
+**Route directly, skip the CEO, when any of these is true:**
+- The request names a skill explicitly ("use the CFO skill").
+- The request is a single-domain question one specialist answers in one reply.
+- The request is purely document formatting (`infeara-document-writer`) or library questions (this skill).
+
+**Always route through the CEO when:** the task has multiple deliverables, spans functions, needs a
+decision across domains, or the user says "handle this", "get the team on it", "deliver this",
+"who should do this", "put a plan together".
+
+Full protocol and a worked example: `../infeara-ceo/references/ceo-delegation-protocol.md` (in the `infeara-ceo` skill folder).
 
 ## Where things live
 
@@ -33,9 +66,14 @@ Never edit `plugins/infeara/skills/` by hand — it is generated.
 
 ## Routing — which expert for which request
 
+**Start here:** multi-function task, project, or "handle this" → `infeara-ceo`. Everything below is
+for direct single-domain routing.
+
+### Executive and specialist experts
+
 | Request sounds like… | Skill |
 |---|---|
-| Strategy, vision, board, M&A, executive decision | `infeara-ceo` |
+| Strategy, vision, board, M&A, executive decision, multi-team task | `infeara-ceo` |
 | Positioning, GTM, campaigns, demand generation | `infeara-marketing-expert` |
 | Pipeline, proposals, pricing, negotiation, forecasting | `infeara-sales-expert` |
 | Budget, P&L, cash flow, margin, unit economics | `infeara-cfo` |
@@ -59,6 +97,43 @@ Never edit `plugins/infeara/skills/` by hand — it is generated.
 | Blog, social post, video script, newsletter | `infeara-content-creator-expert` |
 | Formal document, report, cover page, pagination, letterhead, fonts | `infeara-document-writer` |
 
+### Delivery team (12) — engagements and projects
+
+| Request | Skill |
+|---|---|
+| Whole engagement, "assemble the team", end-to-end delivery | `infeara-team-lead` |
+| Sprint plan, stand-up, retro, backlog, cadence | `infeara-sprint-orchestrator` |
+| Scope, discovery, change request, sign-off | `infeara-team-engagement-manager` |
+| Solution design, architecture, ADR, feasibility | `infeara-team-solution-architect` |
+| Engineering standards, task breakdown, code review | `infeara-team-tech-lead` |
+| Write code, fix a defect, unit tests | `infeara-team-implementation-engineer` |
+| Test plan, acceptance testing, defects | `infeara-team-qa-engineer` |
+| Release, deploy, rollback, environments | `infeara-team-deployment-engineer` |
+| Runbooks, handover, user guides | `infeara-team-documentation-analyst` |
+| Threat model, security review, security sign-off | `infeara-team-security-analyst` |
+| Project plan, schedule, milestones, risks, status | `infeara-team-project-manager` |
+| Client health, renewal, expansion, escalation | `infeara-team-account-manager` |
+
+### Revenue team (15) — sales and marketing
+
+| Request | Skill |
+|---|---|
+| Revenue plan, target, coverage, sales+marketing org | `infeara-revenue-lead` |
+| Pipeline review, funnel, forecast, conversion | `infeara-revenue-pipeline-orchestrator` |
+| Segmentation, positioning, launch, pricing input | `infeara-revenue-gtm-strategist` |
+| Messaging, battlecards, sales enablement, proof | `infeara-revenue-product-marketing` |
+| Brand voice, visual identity, brand audit | `infeara-revenue-brand-manager` |
+| Content strategy, editorial calendar, production | `infeara-revenue-content-manager` |
+| Campaigns, launches, webinars, events | `infeara-revenue-campaign-manager` |
+| SEO, organic, landing pages | `infeara-revenue-seo-specialist` |
+| Tracking, attribution, lead scoring, martech | `infeara-revenue-marketing-ops` |
+| Cold outreach, prospecting, qualification | `infeara-revenue-sdr` |
+| Deal strategy, discovery, demo, close | `infeara-revenue-account-executive` |
+| POC, technical validation, pre-sales scoping | `infeara-revenue-solutions-consultant` |
+| Sales process, CRM, forecast mechanics, territories | `infeara-revenue-sales-ops` |
+| RFP, proposal, bid decision, compliance | `infeara-revenue-proposal-manager` |
+| Partners, channel, resellers, alliances | `infeara-revenue-partnerships-manager` |
+
 ## Plugin rules
 
 1. `plugins/infeara/chatgpt-plugin.json` is the portable Agent Plugins manifest (renamed so the repo keeps exactly one `plugin.json`); OpenAI listing metadata lives under `extensions.com.openai`.
@@ -70,12 +145,14 @@ Never edit `plugins/infeara/skills/` by hand — it is generated.
 
 ## Conventions when working in this repo
 
-1. Load the single best-matching expert skill; chain only when a task spans domains.
-2. Follow each skill's Quality Checklist before delivering.
-3. Respect each skill's Guardrails — never invent financials, client facts, evidence, or legal advice.
-4. Frontmatter `name` must equal the folder name; `description` must stay trigger-rich ("Use when…").
-5. Keep each `SKILL.md` under ~120 lines.
-6. When adding or removing a skill, update `skills/README.md`, this routing table, and `plugins/infeara/skills/get-started/SKILL.md` together, then rebuild.
+1. **Multi-function task → `infeara-ceo` first.** It decomposes, delegates to internal roles, and consolidates. Do not let ten separate specialists answer the user directly.
+2. Load the single best-matching expert skill for single-domain work; chain only when a task spans domains.
+3. Follow each skill's Quality Checklist before delivering.
+4. Respect each skill's Guardrails — never invent financials, client facts, evidence, or legal advice.
+5. Attribute delegated findings to the role that produced them; never present a delegate's work as improvised analysis.
+6. Frontmatter `name` must equal the folder name; `description` must stay trigger-rich ("Use when…").
+7. Keep each `SKILL.md` under ~140 lines.
+8. When adding or removing a skill, update `skills/README.md`, this routing table, `CLAUDE.md`, and `plugins/infeara/skills/get-started/SKILL.md` together, then rebuild.
 
 ## Guardrails
 

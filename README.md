@@ -13,6 +13,16 @@
 | **Claude Code (anywhere)** | `./scripts/install-skills.sh` → installs all 22 skills to `~/.claude/skills/` |
 | **Claude.ai** | Upload any skill folder as a zip (must contain `SKILL.md`) via Settings → Capabilities → Skills |
 
+## How routing works
+
+The **agentic CEO** (`infeara-ceo`) is the entry point for any multi-function task. It triages the
+request, breaks it into workstreams, assigns one internal role per workstream, sequences the handoffs,
+reconciles disagreement, and returns a single consolidated answer — decision, why, who did what, plan,
+risks, and the one ask.
+
+Single-domain questions still route straight to their specialist, and naming a skill ("use the CFO
+skill") is always honoured. See `skills/infeara-ceo/references/ceo-delegation-protocol.md`.
+
 ## Skills
 
 See [`skills/README.md`](skills/README.md) for the full catalog of all 22 skills, routing table, and install instructions. The plugin package is documented in [`plugins/infeara/README.md`](plugins/infeara/README.md).

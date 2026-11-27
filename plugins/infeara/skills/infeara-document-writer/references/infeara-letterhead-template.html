@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infeara Technologies — Corporate Letterhead</title>
+<!--
+  Infeara letterhead — reference implementation for the infeara-document-writer skill.
+  Brand tokens, page geometry and print rules mirror the approved design.
+
+  To use:
+    1. Replace the three <img src> values with the packaged assets:
+         assets/logo-symbol.png    (180×140 symbol)
+         assets/logo-wordmark.png  (400×133 wordmark)
+    2. Fill the .sender block, .doc-meta table and .content body.
+    3. Print to PDF at A4, margins "Default", background graphics ON.
+-->
+<style>
+  :root {
+    --brand-blue-900: #024f86;
+    --brand-blue-700: #0462ab;
+    --brand-orange-500: #fd6f33;
+    --brand-orange-700: #ce430a;
+    --ink: #1e293b;
+    --ink-muted: #334155;
+    --surface: #f1f5f9;
+    --rule: #e2e8f0;
+    --paper: #ffffff;
+    --font-stack: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  }
+  @page { size: A4; margin: 12mm 15mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-stack);
+    background: #e8eef5;
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 24px auto;
+    background: var(--paper);
+    box-shadow: 0 8px 30px rgba(2, 79, 134, 0.15);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Signature gradient strip */
+  .top-accent {
+    height: 6px;
+    background: linear-gradient(90deg, var(--brand-blue-900) 0%, var(--brand-blue-700) 40%, var(--brand-orange-500) 70%, var(--brand-orange-700) 100%);
+  }
+
+  /* Header: symbol left | wordmark + tagline right */
+  .header {
+    padding: 20px 32px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--rule);
+  }
+  .header-left { display: flex; align-items: center; }
+  .logo-symbol { height: 56px; width: auto; }
+  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+  .logo-text { height: 44px; width: auto; }
+  .tagline {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--brand-orange-500);
+    font-style: italic;
+    letter-spacing: 0.4px;
+  }
+
+  /* Contact strip */
+  .contact-strip {
+    background: var(--surface);
+    padding: 11px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    border-bottom: 2px solid var(--brand-blue-900);
+  }
+  .contact-item { display: flex; align-items: center; gap: 7px; }
+  .contact-item svg { width: 15px; height: 15px; fill: var(--brand-blue-700); flex-shrink: 0; }
+  .contact-item a { color: var(--brand-blue-900); text-decoration: none; font-weight: 500; }
+  .contact-item a:hover { color: var(--brand-orange-500); }
+
+  /* Letter body */
+  .content { flex: 1; padding: 40px 32px 100px; min-height: 480px; }
+  .content h1 {
+    font-size: 22pt; font-weight: 600; color: var(--brand-blue-900);
+    line-height: 1.2; margin-bottom: 4px; break-after: avoid;
+  }
+  .content h2 {
+    font-size: 12pt; font-weight: 600; color: var(--brand-blue-700);
+    margin: 18px 0 8px; break-after: avoid;
+  }
+  .content p { font-size: 10.5pt; line-height: 1.55; margin-bottom: 10px; orphans: 2; widows: 2; }
+  .content ul, .content ol { margin: 0 0 10px 18px; font-size: 10.5pt; }
+  .content li { margin-bottom: 4px; }
+  .content strong { color: var(--brand-blue-900); }
+  .content a { color: var(--brand-blue-700); }
+  .content hr { border: 0; border-top: 1px solid var(--rule); margin: 20px 0; }
+
+  /* Letter metadata (ref / date / subject) */
+  .doc-meta {
+    width: 100%; border-collapse: collapse; font-size: 10pt;
+    margin-bottom: 18px; color: var(--ink-muted);
+  }
+  .doc-meta th {
+    text-align: left; font-weight: 600; color: var(--brand-blue-900);
+    padding: 2px 12px 2px 0; white-space: nowrap; width: 1%;
+    border: 0; background: none;
+  }
+  .doc-meta td { padding: 2px 0; border: 0; }
+
+  /* Sender / signature block */
+  .signature { margin-top: 28px; font-size: 10.5pt; }
+  .signature .name { font-weight: 600; color: var(--brand-blue-900); }
+  .signature .role { color: var(--ink-muted); }
+  .signature .rule { width: 52mm; border-top: 1px solid var(--rule); margin: 26px 0 6px; }
+
+  /* Tables */
+  .content table.data { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 10px 0 16px; }
+  .content table.data caption {
+    caption-side: top; text-align: left; font-size: 9pt; font-weight: 600;
+    color: var(--brand-blue-700); padding-bottom: 4px;
+  }
+  .content table.data th {
+    background: var(--brand-blue-900); color: #fff; font-weight: 600;
+    text-align: left; padding: 7px 9px;
+  }
+  .content table.data td { padding: 6px 9px; border-bottom: 1px solid var(--rule); }
+  .content table.data tbody tr:nth-child(even) { background: var(--surface); }
+  .content table.data td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* Callout */
+  .callout {
+    background: var(--surface); border-left: 4px solid var(--brand-orange-500);
+    padding: 12px 14px; margin: 14px 0; font-size: 10pt; break-inside: avoid;
+  }
+  .callout .label {
+    display: block; font-size: 8.5pt; font-weight: 700; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--brand-orange-700); margin-bottom: 4px;
+  }
+
+  /* Footer */
+  .footer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(90deg, var(--brand-blue-900), var(--brand-blue-700));
+    color: #e0f2fe; padding: 14px 32px; font-size: 11px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--brand-orange-500), var(--brand-orange-700));
+  }
+  .footer-left { display: flex; align-items: center; gap: 12px; }
+  .footer-logo { height: 22px; width: auto; filter: brightness(0) invert(1); }
+  .footer-text { opacity: 0.92; }
+  .footer-right { text-align: right; opacity: 0.9; }
+
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; width: 100%; min-height: 100%; }
+    .content a { color: var(--ink); text-decoration: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="top-accent"></div>
+
+    <header class="header">
+      <div class="header-left">
+        <img src="../assets/logo-symbol.png" alt="Infeara" class="logo-symbol">
+      </div>
+      <div class="header-right">
+        <img src="../assets/logo-wordmark.png" alt="INFEARA" class="logo-text">
+        <div class="tagline">The Way to Lead.</div>
+      </div>
+    </header>
+
+    <div class="contact-strip">
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>Chennai, Tamil Nadu, India</span>
+      </div>
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+        <span>+91 63811 73289</span>
+      </div>
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <a href="mailto:info@infeara.com">info@infeara.com</a>
+      </div>
+      <div class="contact-item">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <a href="https://www.infeara.com">www.infeara.com</a>
+      </div>
+    </div>
+
+    <main class="content">
+      <table class="doc-meta">
+        <tr><th>Ref</th><td>INFEARA/CORR/2026/001</td></tr>
+        <tr><th>Date</th><td>22 November 2026</td></tr>
+        <tr><th>Subject</th><td>Corporate letterhead — document body</td></tr>
+      </table>
+
+      <h1>Document Title</h1>
+      <p>Body copy uses Segoe UI at 10.5&nbsp;pt with 1.55 line height, left-aligned to a
+        65–75 character measure. Headings carry the hierarchy; colour stays in the accent bar.</p>
+
+      <h2>Section heading</h2>
+      <p>Replace this block with the letter or document body. Keep paragraphs under six lines
+        and never start a section in the bottom third of the page.</p>
+
+      <div class="callout">
+        <span class="label">Note</span>
+        Callouts use the orange rule on the surface fill — the only orange element on the page.
+      </div>
+
+      <table class="data">
+        <caption>Table 1 — Example data table</caption>
+        <thead><tr><th>Item</th><th>Owner</th><th class="num">Value</th></tr></thead>
+        <tbody>
+          <tr><td>Scope</td><td>Delivery</td><td class="num">1.00</td></tr>
+          <tr><td>Timeline</td><td>Operations</td><td class="num">12.50</td></tr>
+        </tbody>
+      </table>
+
+      <div class="signature">
+        <div class="rule"></div>
+        <div class="name">Name Surname</div>
+        <div class="role">Role · Infeara Technologies</div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-left">
+        <img src="../assets/logo-wordmark.png" alt="INFEARA" class="footer-logo">
+        <span class="footer-text">The Way to Lead.</span>
+      </div>
+      <div class="footer-right">
+        Chennai, Tamil Nadu, India &nbsp;•&nbsp; +91 63811 73289
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# Build output — regenerate with ./scripts/build-plugin.sh
+dist/*.zip
+
+# OS noise
+.DS_Store
+__MACOSX/

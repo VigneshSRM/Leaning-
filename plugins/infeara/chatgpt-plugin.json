@@ -47,9 +47,9 @@
           "Brand-compliant documents with cover pages and pagination"
         ],
         "defaultPrompt": [
-          "Give this task to the Infeara CEO and have the internal team deliver it",
-          "Build the Infeara 15-person revenue team and plan to hit this target",
-          "Use the Infeara document writer to format this as a branded report"
+          "Use the Infeara CFO skill to give me a board-ready pricing decision",
+          "Give this growth task to the Infeara CEO and have the internal team deliver it",
+          "Run the Infeara revenue proposal manager checklist against this RFP"
         ],
         "brandColor": "#055998",
         "brandColorDark": "#F16935",

@@ -10,8 +10,15 @@
 | **Claude Code (this repo)** | Already wired via `.claude/skills/` — just ask, e.g. *"Use the Infeara CFO skill to review this pricing model"* |
 | **Claude Code (as a plugin)** | `/plugin install infeara --marketplace VigneshSRM/Leaning-` |
 | **Claude plugin upload (repo ZIP)** | Manifest at `.claude-plugin/plugin.json` at the repo root — zip the repo, keeping that path at the archive root |
-| **Claude Code (anywhere)** | `./scripts/install-skills.sh` → installs all 22 skills to `~/.claude/skills/` |
+| **Claude Code (anywhere)** | `./scripts/install-skills.sh` → installs all 51 skills to `~/.claude/skills/` |
 | **Claude.ai** | Upload any skill folder as a zip (must contain `SKILL.md`) via Settings → Capabilities → Skills |
+
+## Getting expert-level output
+
+The skills are a staff, not a menu. [`GUIDE.md`](GUIDE.md) covers the six-part brief, the four
+engagement modes, how to invoke individual sections (Quality Checklist, Guardrails, Playbooks),
+how to force reasoning, deliberate skill chaining, the output audit, anti-patterns, and
+copy-paste starter prompts.
 
 ## How routing works
 
@@ -25,7 +32,7 @@ skill") is always honoured. See `skills/infeara-ceo/references/ceo-delegation-pr
 
 ## Skills
 
-See [`skills/README.md`](skills/README.md) for the full catalog of all 22 skills, routing table, and install instructions. The plugin package is documented in [`plugins/infeara/README.md`](plugins/infeara/README.md).
+See [`skills/README.md`](skills/README.md) for the full catalog of all 51 skills, routing table, and install instructions. The plugin package is documented in [`plugins/infeara/README.md`](plugins/infeara/README.md).
 
 | Area | Skills |
 |---|---|
@@ -40,7 +47,7 @@ See [`skills/README.md`](skills/README.md) for the full catalog of all 22 skills
 ## Layout
 
 ```
-skills/                       # Canonical skills — edit here (22 × SKILL.md)
+skills/                       # Canonical skills — edit here (51 × SKILL.md)
 .claude/skills/               # Mirror for Claude Code auto-discovery
 plugins/infeara/              # ChatGPT/Codex plugin package (manifest, icons, skills)
   plugin.json                 #   Agent Plugins manifest + OpenAI listing metadata
@@ -49,7 +56,7 @@ plugins/infeara/              # ChatGPT/Codex plugin package (manifest, icons, s
   .claude-plugin/plugin.json  #   same package installable in Claude Code
 .claude-plugin/marketplace.json  # Claude Code marketplace (/plugin install infeara)
 .agents/plugins/marketplace.json # ChatGPT desktop local marketplace (testing)
-scripts/install-skills.sh     # Install the 22 skills into any Claude setup
+scripts/install-skills.sh     # Install the 51 skills into any Claude setup
 scripts/build-plugin.sh       # Sync skills → plugin folder, build dist zip
 scripts/validate-plugin.py    # Validate manifest, limits, icons, skills
 ```

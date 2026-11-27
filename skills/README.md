@@ -96,7 +96,7 @@ Skills are mirrored to `.claude/skills/` so Claude Code in this repo discovers t
 ### Claude Code (any other project)
 
 ```bash
-# Install all 22 skills to your personal Claude skills folder
+# Install all 51 skills to your personal Claude skills folder
 ./scripts/install-skills.sh
 
 # Or install to a specific project only
